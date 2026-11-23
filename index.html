@@ -13,7 +13,32 @@
   * { box-sizing: border-box; }
   body { margin: 0; background: var(--bg); color: var(--ink);
          font: 17px/1.6 Georgia, "Times New Roman", serif; }
-  header { background: var(--accent); color: #fff; padding: 18px 20px; }
+  header { background: var(--accent); color: #fff; padding: 18px 20px;
+           display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+  #auth { display: flex; gap: 8px; align-items: center; font-size: .9rem; }
+  #auth button { background: #fff; color: var(--accent); border: 0; border-radius: 8px;
+                 padding: 7px 14px; cursor: pointer; font-size: .9rem; }
+  #auth .who { opacity: .9; max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  #authModal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 50;
+               align-items: center; justify-content: center; padding: 16px; }
+  #authModal.open { display: flex; }
+  .am-card { background: #fff; border-radius: 14px; padding: 22px; max-width: 420px; width: 100%; position: relative; }
+  .am-card h3 { margin: 0 0 6px; }
+  .am-sub { color: var(--muted); font-size: .92rem; margin: 0 0 14px; }
+  .am-x { position: absolute; top: 8px; right: 12px; border: 0; background: none; font-size: 1.6rem; cursor: pointer; color: var(--muted); }
+  #amEmail { width: 100%; padding: 10px 12px; font-size: 1rem; border: 1px solid var(--line); border-radius: 8px; margin-bottom: 10px; }
+  .am-chk { display: flex; gap: 8px; font-size: .82rem; color: var(--ink); margin-bottom: 8px; align-items: flex-start; }
+  .am-chk input { margin-top: 3px; }
+  #amSend { width: 100%; background: var(--accent); color: #fff; border: 0; border-radius: 8px; padding: 10px; font-size: .95rem; cursor: pointer; margin-top: 6px; }
+  #amSend:disabled { opacity: .6; }
+  .am-msg { font-size: .88rem; margin: 10px 0 0; }
+  .am-msg.ok { color: var(--accent); } .am-msg.err { color: var(--wrong); }
+  #resume { display: none; background: var(--accent-soft); border: 1px solid var(--accent); border-radius: 10px;
+            padding: 10px 14px; margin-bottom: 14px; font-size: .92rem; align-items: center; justify-content: space-between; gap: 10px; }
+  #resume.show { display: flex; }
+  #resume button { background: var(--accent); color: #fff; border: 0; border-radius: 8px; padding: 6px 12px; cursor: pointer; }
+  footer { text-align: center; font: .8rem system-ui, sans-serif; color: var(--muted); padding: 20px; }
+  footer a { color: var(--muted); }
   header h1 { margin: 0; font-size: 1.5rem; font-weight: normal; letter-spacing: .03em; }
   header .logo { color: #f3d98b; }
   header p { margin: 2px 0 0; opacity: .8; font-size: .9rem; font-family: system-ui, sans-serif; }
@@ -70,8 +95,11 @@
 </head>
 <body>
 <header>
-  <h1><span class="logo">✦</span> Good Deeds</h1>
-  <p>Learn English with Islamic Values · İslami değerlerle İngilizce öğren</p>
+  <div>
+    <h1><span class="logo">✦</span> Good Deeds</h1>
+    <p>Learn English with Islamic Values · İslami değerlerle İngilizce öğren</p>
+  </div>
+  <div id="auth" class="ui"></div>
 </header>
 
 <main>
@@ -93,14 +121,19 @@
 
   <h2 id="title"></h2>
   <p class="sub" id="subtitle"></p>
+  <div id="resume" class="ui"><span id="resumeTxt"></span><button id="resumeBtn">Devam et</button></div>
   <div id="text"></div>
 
   <section class="box"><h3>Kelimeler · Vocabulary</h3><div class="vocab" id="vocab"></div></section>
   <section class="box"><h3>Kısa Test · Quiz</h3><div id="quiz"></div><div class="score" id="score"></div></section>
   <section class="box"><h3>Kaynaklar · Sources</h3><ul class="sources" id="sources"></ul></section>
 </main>
+<footer><a href="gizlilik.html">Gizlilik ve KVKK Aydınlatma Metni</a></footer>
 
 <script src="data.js"></script>
+<script src="config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="progress.js"></script>
 <script>
 (() => {
   const L = window.LESSONS || [];
@@ -117,11 +150,30 @@
   const keys = Object.keys(groups);
   if (!keys.length) { $("text").textContent = "Ders bulunamadı (data.js boş)."; return; }
 
+  const GD = window.GD || { get() {}, isCompleted() { return false; }, onChange() {}, sentence() {}, quiz() {} };
   for (const k of keys) {
-    const any = Object.values(groups[k])[0];
     const o = document.createElement("option");
-    o.value = k; o.textContent = `Bölüm ${any.part}: ${any.title}`;
+    o.value = k;
     $("partSel").appendChild(o);
+  }
+  function labelParts() {
+    for (const o of $("partSel").options) {
+      const g = groups[o.value], any = Object.values(g)[0];
+      const done = Object.values(g).some(l => GD.isCompleted(l.id));
+      o.textContent = `${done ? "✓ " : ""}Bölüm ${any.part}: ${any.title}`;
+    }
+  }
+  labelParts();
+  GD.onChange(() => { labelParts(); showResume(); });
+
+  function showResume() {
+    const l = lesson(), p = GD.get(l.id), n = timings().length;
+    const box = $("resume");
+    if (p && p.last > 0 && p.last < n - 1 && state.idx < 0) {
+      $("resumeTxt").textContent = `Kaldığınız yer: ${p.last + 1}. cümle (toplam ${n})`;
+      $("resumeBtn").onclick = () => { box.classList.remove("show"); playSentence(p.last); };
+      box.classList.add("show");
+    } else box.classList.remove("show");
   }
 
   const esc = s => s.replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
@@ -195,7 +247,10 @@
           d.dataset.done = 1; answered++;
           if (oi === q.answer) { b.classList.add("ok"); correct++; }
           else { b.classList.add("no"); d.querySelectorAll("button")[q.answer].classList.add("ok"); }
-          if (answered === l.quiz.length) $("score").textContent = `Sonuç: ${correct} / ${l.quiz.length}`;
+          if (answered === l.quiz.length) {
+            $("score").textContent = `Sonuç: ${correct} / ${l.quiz.length}`;
+            GD.quiz(l.id, correct, l.quiz.length);
+          }
         };
         d.appendChild(b);
       });
@@ -210,6 +265,7 @@
 
     setAudio(keepTime);
     if (!keepTime) window.scrollTo(0, 0);
+    showResume();
   }
 
   function setAudio(keepTime) {
@@ -236,6 +292,7 @@
   function highlight(i) {
     if (i === state.idx) return;
     state.idx = i;
+    if (i >= 0) { GD.sentence(lesson().id, i, timings().length); $("resume").classList.remove("show"); }
     document.querySelectorAll(".sent.active").forEach(e => e.classList.remove("active"));
     if (i < 0) return;
     const el = document.querySelector(`.sent[data-i="${i}"]`);
