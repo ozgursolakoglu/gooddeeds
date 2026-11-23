@@ -1,6 +1,5 @@
-// Supabase baglanti bilgileri. Bos birakilirsa giris ozelligi gizlenir,
-// ilerleme sadece tarayicida saklanir.
+// Supabase baglanti bilgileri (publishable key herkese acik kullanim icindir).
 window.GD_CONFIG = {
-  supabaseUrl: "",   // ornek: "https://abcdefgh.supabase.co"
-  supabaseKey: ""    // anon / publishable key (herkese acik anahtar)
+  supabaseUrl: "https://fdtadyrohimitlmkdupi.supabase.co",
+  supabaseKey: "sb_publishable_wKWngE5V439qF6GnBMniiw_VzA9dEs_"
 };
