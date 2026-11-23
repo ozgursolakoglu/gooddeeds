@@ -3,24 +3,140 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Good Deeds · Learn English with Islamic Values</title>
+<title>Good Deeds</title>
 <style>
   :root {
     --bg: #f7f4ee; --card: #ffffff; --ink: #1f2a2e; --muted: #6b7478;
     --accent: #1f6f5c; --accent-soft: #e3f1ec; --hl: #fff2c2; --line: #e6e1d8;
-    --wrong: #b3473a;
+    --wrong: #b3473a; --gold: #f3d98b;
   }
   * { box-sizing: border-box; }
   body { margin: 0; background: var(--bg); color: var(--ink);
          font: 17px/1.6 Georgia, "Times New Roman", serif; }
-  header { background: var(--accent); color: #fff; padding: 18px 20px;
-           display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
-  #auth { display: flex; gap: 8px; align-items: center; font-size: .9rem; }
-  #auth button { background: #fff; color: var(--accent); border: 0; border-radius: 8px;
-                 padding: 7px 14px; cursor: pointer; font-size: .9rem; }
-  #auth .who { opacity: .9; max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  #authModal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 50;
-               align-items: center; justify-content: center; padding: 16px; }
+  a { color: inherit; }
+  .ui, button, select, input { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
+
+  /* ---------- Ust bar ---------- */
+  header { background: var(--accent); color: #fff; padding: 12px 16px; position: sticky; top: 0; z-index: 20;
+           display: flex; align-items: center; gap: 12px; }
+  #menuBtn { background: none; border: 0; color: #fff; font-size: 1.5rem; cursor: pointer; padding: 4px 8px; border-radius: 8px; }
+  #menuBtn:hover { background: rgba(255,255,255,.12); }
+  .brand { text-decoration: none; flex: 1; min-width: 0; }
+  .brand h1 { margin: 0; font-size: 1.35rem; font-weight: normal; letter-spacing: .03em; }
+  .brand p { margin: 0; opacity: .8; font-size: .8rem; font-family: system-ui, sans-serif; }
+  .logo { color: var(--gold); }
+  #auth { display: flex; gap: 8px; align-items: center; font-size: .88rem; }
+  #auth button { background: #fff; color: var(--accent); border: 0; border-radius: 8px; padding: 7px 14px; cursor: pointer; font-size: .88rem; }
+  #auth .who { opacity: .9; max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  @media (max-width: 560px) { .brand p { display: none; } #auth .who { display: none; } }
+
+  /* ---------- Menu (agac) ---------- */
+  #scrim { position: fixed; inset: 0; background: rgba(0,0,0,.35); z-index: 39; display: none; }
+  #scrim.open { display: block; }
+  #drawer { position: fixed; top: 0; left: 0; bottom: 0; width: min(360px, 88vw); background: var(--card); z-index: 40;
+            transform: translateX(-100%); visibility: hidden; transition: transform .2s ease, visibility .2s; overflow-y: auto; box-shadow: 2px 0 18px rgba(0,0,0,.15); }
+  #drawer.open { transform: none; visibility: visible; }
+  .dr-head { display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; border-bottom: 1px solid var(--line);
+             position: sticky; top: 0; background: var(--card); font-weight: 600; }
+  .dr-head button { border: 0; background: none; font-size: 1.5rem; cursor: pointer; color: var(--muted); }
+  .tree { padding: 6px 0 30px; font-size: .92rem; }
+  .tree a { text-decoration: none; }
+  .tr-track { display: block; padding: 12px 16px 4px; font-weight: 700; color: var(--accent); }
+  .tr-sec { display: block; padding: 6px 16px 2px 28px; font-weight: 600; }
+  .tr-les { display: flex; gap: 8px; padding: 4px 16px 4px 40px; color: var(--ink); align-items: baseline; }
+  .tr-les:hover { background: #f3f0ea; }
+  .tr-les.soon { color: #a3a9ac; }
+  .tr-les.cur { background: var(--accent-soft); font-weight: 600; }
+  .tr-les .mk { width: 1em; flex: none; color: var(--accent); }
+
+  main { max-width: 860px; margin: 0 auto; padding: 18px 16px 70px; }
+  footer { text-align: center; font: .8rem system-ui, sans-serif; color: var(--muted); padding: 20px; }
+  footer a { color: var(--muted); }
+
+  /* ---------- Karsilama ---------- */
+  .hero { text-align: center; margin: 22px 0 26px; }
+  .hero h2 { font-size: 1.7rem; margin: 0 0 6px; font-weight: normal; }
+  .hero p { color: var(--muted); margin: 0; font-family: system-ui, sans-serif; }
+  .tracks { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+  .track-card { display: block; text-decoration: none; background: var(--card); border: 1px solid var(--line); border-radius: 16px;
+                padding: 26px 22px; transition: transform .12s, box-shadow .12s; }
+  .track-card:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(0,0,0,.08); }
+  .track-card .ic { font-size: 2rem; color: var(--accent); }
+  .track-card h3 { margin: 8px 0 0; font-size: 1.4rem; }
+  .track-card .tt { color: var(--accent); font-family: system-ui, sans-serif; font-size: .95rem; }
+  .track-card .ds { color: var(--muted); font-family: system-ui, sans-serif; font-size: .9rem; margin: 10px 0 14px; }
+  .track-card .ct { font: .82rem system-ui, sans-serif; color: var(--muted); }
+  .continue { display: flex; justify-content: space-between; align-items: center; gap: 10px; background: var(--accent-soft);
+              border: 1px solid var(--accent); border-radius: 12px; padding: 12px 16px; margin-bottom: 18px; font: .92rem system-ui, sans-serif; }
+  .continue a { background: var(--accent); color: #fff; text-decoration: none; border-radius: 8px; padding: 6px 12px; white-space: nowrap; }
+
+  /* ---------- Bolum (track) sayfasi ---------- */
+  .crumbs { font: .85rem system-ui, sans-serif; color: var(--muted); margin-bottom: 6px; }
+  .crumbs a { color: var(--muted); }
+  .page-title { font-size: 1.6rem; margin: 0 0 2px; }
+  .page-sub { color: var(--accent); font: .95rem system-ui, sans-serif; margin: 0 0 20px; }
+  .section { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; margin-bottom: 16px; }
+  .section h3 { margin: 0; font-size: 1.15rem; }
+  .section .st { color: var(--accent); font: .88rem system-ui, sans-serif; margin-bottom: 10px; }
+  .les-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 10px; }
+  .les { display: block; text-decoration: none; border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; background: #fff; }
+  .les:hover { border-color: var(--accent); }
+  .les .no { font: .75rem system-ui, sans-serif; color: var(--muted); }
+  .les .t { font-size: .98rem; line-height: 1.35; margin: 2px 0; }
+  .les .tr { font: .82rem system-ui, sans-serif; color: var(--accent); }
+  .badge { display: inline-block; font: .72rem system-ui, sans-serif; border-radius: 6px; padding: 1px 7px; margin-top: 6px; }
+  .b-ready { background: var(--accent-soft); color: var(--accent); }
+  .b-done { background: var(--accent); color: #fff; }
+  .b-soon { background: #eee; color: #8a8f92; }
+  .les.soon { opacity: .65; }
+
+  /* ---------- Ders sayfasi ---------- */
+  .controls { position: sticky; top: 58px; z-index: 5; background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+              padding: 12px 14px; margin: 12px 0 20px; box-shadow: 0 2px 10px rgba(0,0,0,.05); }
+  .row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .row + .row { margin-top: 10px; }
+  .seg { display: inline-flex; border: 1px solid var(--accent); border-radius: 8px; overflow: hidden; }
+  .seg button { border: 0; background: #fff; color: var(--accent); padding: 6px 12px; font-size: .9rem; cursor: pointer; }
+  .seg button.on { background: var(--accent); color: #fff; }
+  label.chk { font-size: .9rem; display: inline-flex; gap: 6px; align-items: center; cursor: pointer; }
+  audio { width: 100%; }
+  .para { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; margin-bottom: 14px; }
+  .sent { padding: 6px 8px; border-radius: 8px; cursor: pointer; transition: background .15s; }
+  .sent:hover { background: #f3f0ea; }
+  .sent.active { background: var(--hl); }
+  .sent .en { display: block; }
+  .sent .tr { display: block; color: var(--accent); font-size: .92rem; font-style: italic; margin-top: 2px; }
+  body.hide-tr .sent .tr { display: none; }
+  .src { font-family: system-ui, sans-serif; font-size: .72rem; color: var(--muted); border: 1px solid var(--line); border-radius: 6px; padding: 0 5px; margin-left: 6px; }
+  mark.vw { background: none; border-bottom: 2px dotted var(--accent); color: inherit; }
+  section.box { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; margin-top: 26px; }
+  section.box h3 { margin: 0 0 10px; font-size: 1.1rem; }
+  .vocab { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; }
+  .vc { border: 1px solid var(--line); border-radius: 10px; padding: 8px 10px; }
+  .vc b { color: var(--accent); }
+  .vc .m { font-family: system-ui, sans-serif; font-size: .9rem; }
+  .vc .ex { color: var(--muted); font-size: .88rem; font-style: italic; }
+  .q { margin-bottom: 14px; }
+  .q p { margin: 0 0 6px; font-weight: bold; }
+  .q button { display: block; width: 100%; text-align: left; margin: 4px 0; padding: 8px 10px; border: 1px solid var(--line);
+              border-radius: 8px; background: #fff; cursor: pointer; font-size: .95rem; }
+  .q button.ok { background: var(--accent-soft); border-color: var(--accent); }
+  .q button.no { background: #f8e6e3; border-color: var(--wrong); }
+  .score { font-family: system-ui, sans-serif; font-weight: bold; color: var(--accent); }
+  .sources li { font-family: system-ui, sans-serif; font-size: .9rem; margin-bottom: 4px; }
+  .warn { color: var(--wrong); font-size: .8rem; } .okv { color: var(--accent); font-size: .8rem; }
+  #resume { display: none; background: var(--accent-soft); border: 1px solid var(--accent); border-radius: 10px; padding: 10px 14px;
+            margin-bottom: 14px; font-size: .92rem; align-items: center; justify-content: space-between; gap: 10px; }
+  #resume.show { display: flex; }
+  #resume button { background: var(--accent); color: #fff; border: 0; border-radius: 8px; padding: 6px 12px; cursor: pointer; }
+  .pager { display: flex; justify-content: space-between; gap: 10px; margin-top: 30px; font: .9rem system-ui, sans-serif; }
+  .pager a { text-decoration: none; border: 1px solid var(--line); background: var(--card); border-radius: 10px; padding: 10px 14px; max-width: 48%; }
+  .pager a:hover { border-color: var(--accent); }
+  .pager .lbl { display: block; color: var(--muted); font-size: .78rem; }
+  .soon-box { background: var(--card); border: 1px dashed var(--line); border-radius: 14px; padding: 40px 20px; text-align: center; color: var(--muted); font-family: system-ui, sans-serif; }
+
+  /* ---------- Giris penceresi ---------- */
+  #authModal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 50; align-items: center; justify-content: center; padding: 16px; }
   #authModal.open { display: flex; }
   .am-card { background: #fff; border-radius: 14px; padding: 22px; max-width: 420px; width: 100%; position: relative; }
   .am-card h3 { margin: 0 0 6px; }
@@ -33,313 +149,350 @@
   #amSend:disabled { opacity: .6; }
   .am-msg { font-size: .88rem; margin: 10px 0 0; }
   .am-msg.ok { color: var(--accent); } .am-msg.err { color: var(--wrong); }
-  #resume { display: none; background: var(--accent-soft); border: 1px solid var(--accent); border-radius: 10px;
-            padding: 10px 14px; margin-bottom: 14px; font-size: .92rem; align-items: center; justify-content: space-between; gap: 10px; }
-  #resume.show { display: flex; }
-  #resume button { background: var(--accent); color: #fff; border: 0; border-radius: 8px; padding: 6px 12px; cursor: pointer; }
-  footer { text-align: center; font: .8rem system-ui, sans-serif; color: var(--muted); padding: 20px; }
-  footer a { color: var(--muted); }
-  header h1 { margin: 0; font-size: 1.5rem; font-weight: normal; letter-spacing: .03em; }
-  header .logo { color: #f3d98b; }
-  header p { margin: 2px 0 0; opacity: .8; font-size: .9rem; font-family: system-ui, sans-serif; }
-  main { max-width: 820px; margin: 0 auto; padding: 16px 16px 80px; }
-  .ui, button, select { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
-
-  .controls { position: sticky; top: 0; z-index: 5; background: var(--card);
-              border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px;
-              margin: 12px 0 20px; box-shadow: 0 2px 10px rgba(0,0,0,.05); }
-  .row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
-  .row + .row { margin-top: 10px; }
-  select { font-size: .95rem; padding: 6px 8px; border-radius: 8px; border: 1px solid var(--line); }
-  .seg { display: inline-flex; border: 1px solid var(--accent); border-radius: 8px; overflow: hidden; }
-  .seg button { border: 0; background: #fff; color: var(--accent); padding: 6px 12px;
-                font-size: .9rem; cursor: pointer; }
-  .seg button.on { background: var(--accent); color: #fff; }
-  label.chk { font-size: .9rem; display: inline-flex; gap: 6px; align-items: center; cursor: pointer; }
-  audio { width: 100%; }
-
-  h2 { font-size: 1.5rem; margin: 6px 0 2px; }
-  .sub { color: var(--muted); margin: 0 0 18px; font-family: system-ui, sans-serif; font-size: .95rem; }
-  .para { background: var(--card); border: 1px solid var(--line); border-radius: 12px;
-          padding: 10px 12px; margin-bottom: 14px; }
-  .sent { padding: 6px 8px; border-radius: 8px; cursor: pointer; transition: background .15s; }
-  .sent:hover { background: #f3f0ea; }
-  .sent.active { background: var(--hl); }
-  .en { display: block; }
-  .tr { display: block; color: var(--accent); font-size: .92rem; font-style: italic; margin-top: 2px; }
-  body.hide-tr .tr { display: none; }
-  .src { font-family: system-ui, sans-serif; font-size: .72rem; color: var(--muted);
-         border: 1px solid var(--line); border-radius: 6px; padding: 0 5px; margin-left: 6px; }
-  mark.vw { background: none; border-bottom: 2px dotted var(--accent); color: inherit; }
-
-  section.box { background: var(--card); border: 1px solid var(--line); border-radius: 12px;
-                padding: 14px 16px; margin-top: 26px; }
-  section.box h3 { margin: 0 0 10px; font-size: 1.1rem; }
-  .vocab { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; }
-  .vc { border: 1px solid var(--line); border-radius: 10px; padding: 8px 10px; }
-  .vc b { color: var(--accent); }
-  .vc .m { font-family: system-ui, sans-serif; font-size: .9rem; }
-  .vc .ex { color: var(--muted); font-size: .88rem; font-style: italic; }
-  .q { margin-bottom: 14px; }
-  .q p { margin: 0 0 6px; font-weight: bold; }
-  .q button { display: block; width: 100%; text-align: left; margin: 4px 0; padding: 8px 10px;
-              border: 1px solid var(--line); border-radius: 8px; background: #fff;
-              cursor: pointer; font-size: .95rem; }
-  .q button.ok { background: var(--accent-soft); border-color: var(--accent); }
-  .q button.no { background: #f8e6e3; border-color: var(--wrong); }
-  .score { font-family: system-ui, sans-serif; font-weight: bold; color: var(--accent); }
-  .sources li { font-family: system-ui, sans-serif; font-size: .9rem; margin-bottom: 4px; }
-  .warn { color: var(--wrong); font-size: .8rem; }
-  .okv { color: var(--accent); font-size: .8rem; }
 </style>
 </head>
 <body>
 <header>
-  <div>
+  <button id="menuBtn" aria-label="Menü" title="İçindekiler">☰</button>
+  <a href="#/" class="brand">
     <h1><span class="logo">✦</span> Good Deeds</h1>
-    <p>Learn English with Islamic Values · İslami değerlerle İngilizce öğren</p>
-  </div>
+    <p>Learn English · İngilizce öğren</p>
+  </a>
   <div id="auth" class="ui"></div>
 </header>
 
-<main>
+<div id="scrim"></div>
+<nav id="drawer" class="ui" aria-label="İçindekiler">
+  <div class="dr-head">İçindekiler <button id="drClose" aria-label="Kapat">×</button></div>
+  <div class="tree" id="tree"></div>
+</nav>
+
+<main id="app"></main>
+<footer><a href="gizlilik.html">Gizlilik ve KVKK Aydınlatma Metni</a></footer>
+
+<template id="lessonTpl">
+  <div class="crumbs" data-crumbs></div>
+  <h2 class="page-title" data-title></h2>
+  <p class="page-sub" data-sub></p>
   <div class="controls ui">
     <div class="row">
-      <select id="partSel" aria-label="Ders"></select>
-      <span class="seg" id="levelSeg"></span>
-      <span class="seg" id="speedSeg">
+      <span class="seg" data-levels></span>
+      <span class="seg" data-speeds>
         <button data-v="normal" class="on">Normal</button>
         <button data-v="slow">Yavaş</button>
       </span>
     </div>
     <div class="row">
-      <label class="chk"><input type="checkbox" id="trChk" checked> Türkçe çeviri</label>
-      <label class="chk"><input type="checkbox" id="stopChk"> Her cümleden sonra dur</label>
+      <label class="chk"><input type="checkbox" data-trchk checked> Türkçe çeviri</label>
+      <label class="chk"><input type="checkbox" data-stopchk> Her cümleden sonra dur</label>
     </div>
-    <div class="row"><audio id="player" controls preload="metadata"></audio></div>
+    <div class="row"><audio data-player controls preload="metadata"></audio></div>
   </div>
+  <div id="resume" class="ui"><span data-resumetxt></span><button data-resumebtn>Devam et</button></div>
+  <div data-text></div>
+  <section class="box"><h3>Kelimeler · Vocabulary</h3><div class="vocab" data-vocab></div></section>
+  <section class="box"><h3>Kısa Test · Quiz</h3><div data-quiz></div><div class="score" data-score></div></section>
+  <section class="box"><h3>Kaynaklar · Sources</h3><ul class="sources" data-sources></ul></section>
+  <div class="pager" data-pager></div>
+</template>
 
-  <h2 id="title"></h2>
-  <p class="sub" id="subtitle"></p>
-  <div id="resume" class="ui"><span id="resumeTxt"></span><button id="resumeBtn">Devam et</button></div>
-  <div id="text"></div>
-
-  <section class="box"><h3>Kelimeler · Vocabulary</h3><div class="vocab" id="vocab"></div></section>
-  <section class="box"><h3>Kısa Test · Quiz</h3><div id="quiz"></div><div class="score" id="score"></div></section>
-  <section class="box"><h3>Kaynaklar · Sources</h3><ul class="sources" id="sources"></ul></section>
-</main>
-<footer><a href="gizlilik.html">Gizlilik ve KVKK Aydınlatma Metni</a></footer>
-
-<script src="data.js"></script>
-<script src="config.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="progress.js"></script>
+<script src="data.js?v=1795460332"></script>
+<script src="catalog.js?v=1795460332"></script>
+<script src="config.js?v=1795460332"></script>
+<script src="supabase.js?v=1795460332"></script>
+<script src="progress.js?v=1795460332"></script>
 <script>
 (() => {
-  const L = window.LESSONS || [];
-  const $ = id => document.getElementById(id);
-  const player = $("player");
-  const state = { key: null, level: null, speed: "normal", idx: -1, stopAt: null };
-
-  // Dersleri seri+bolum anahtarina gore grupla: { "seri|1": { A2: lesson, B1: lesson } }
-  const groups = {};
-  for (const l of L) {
-    const k = `${l.series}|${l.part}`;
-    (groups[k] ||= {})[l.level] = l;
-  }
-  const keys = Object.keys(groups);
-  if (!keys.length) { $("text").textContent = "Ders bulunamadı (data.js boş)."; return; }
-
+  const LESSONS = window.LESSONS || [];
+  const CATALOG = window.CATALOG || { tracks: [] };
   const GD = window.GD || { get() {}, isCompleted() { return false; }, onChange() {}, sentence() {}, quiz() {} };
-  for (const k of keys) {
-    const o = document.createElement("option");
-    o.value = k;
-    $("partSel").appendChild(o);
-  }
-  function labelParts() {
-    for (const o of $("partSel").options) {
-      const g = groups[o.value], any = Object.values(g)[0];
-      const done = Object.values(g).some(l => GD.isCompleted(l.id));
-      o.textContent = `${done ? "✓ " : ""}Bölüm ${any.part}: ${any.title}`;
-    }
-  }
-  labelParts();
-  GD.onChange(() => { labelParts(); showResume(); });
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const lsGet = (k, d) => { try { return localStorage.getItem(k) ?? d; } catch { return d; } };
+  const lsSet = (k, v) => { try { localStorage.setItem(k, v); } catch {} };
 
-  function showResume() {
-    const l = lesson(), p = GD.get(l.id), n = timings().length;
-    const box = $("resume");
-    if (p && p.last > 0 && p.last < n - 1 && state.idx < 0) {
-      $("resumeTxt").textContent = `Kaldığınız yer: ${p.last + 1}. cümle (toplam ${n})`;
-      $("resumeBtn").onclick = () => { box.classList.remove("show"); playSentence(p.last); };
-      box.classList.add("show");
-    } else box.classList.remove("show");
-  }
+  // ---------- Veri: ders id'si -> seviyeler ----------
+  const baseId = id => id.replace(/_(a1|a2|b1|b2|c1|c2)$/i, "");
+  const byBase = {};
+  for (const l of LESSONS) (byBase[baseId(l.id)] ||= {})[l.level] = l;
 
-  const esc = s => s.replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-  const lesson = () => groups[state.key][state.level];
-  const timings = () => (lesson().audio[state.speed] || lesson().audio.normal).sentences;
+  // Katalogdaki her dersi duz bir listede tut (onceki/sonraki ve agac icin)
+  const flat = [];
+  const known = new Set();
+  for (const t of CATALOG.tracks) for (const s of t.sections) s.lessons.forEach((ls, i) => {
+    ls.n = i + 1; known.add(ls.id); flat.push({ t, s, ls });
+  });
+  for (const b of Object.keys(byBase)) if (!known.has(b)) console.warn(`Ders "${b}" catalog.js icinde tanimli degil; menude gorunmez.`);
+  const isReady = id => !!byBase[id];
+  const isDone = id => Object.values(byBase[id] || {}).some(l => GD.isCompleted(l.id));
+  const statusBadge = id => isDone(id) ? `<span class="badge b-done">✓ Tamamlandı</span>`
+    : isReady(id) ? `<span class="badge b-ready">Hazır</span>` : `<span class="badge b-soon">Yakında</span>`;
+  const findEntry = id => flat.find(e => e.ls.id === id);
 
-  function markVocab(html, vocab) {
-    for (const v of vocab) {
-      const base = v.word.replace(/\s*\(.*?\)\s*/g, " ").trim();
-      if (!base) continue;
-      const re = new RegExp(`\\b(${base.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(?:s|es|d|ed)?)\\b(?![^<]*>)`, "gi");
-      html = html.replace(re, `<mark class="vw" title="${esc(v.tr)}">$1</mark>`);
-    }
-    return html;
-  }
+  // ---------- Menu ----------
+  const openMenu = () => { renderTree(); $("drawer").classList.add("open"); $("scrim").classList.add("open"); };
+  const closeMenu = () => { $("drawer").classList.remove("open"); $("scrim").classList.remove("open"); };
+  $("menuBtn").onclick = openMenu; $("drClose").onclick = closeMenu; $("scrim").onclick = closeMenu;
+  document.addEventListener("keydown", e => { if (e.key === "Escape") closeMenu(); });
 
-  function renderLevels() {
-    const seg = $("levelSeg"); seg.innerHTML = "";
-    for (const lv of Object.keys(groups[state.key]).sort()) {
-      const b = document.createElement("button");
-      b.textContent = lv; b.dataset.v = lv;
-      if (lv === state.level) b.className = "on";
-      b.onclick = () => { state.level = lv; load(); };
-      seg.appendChild(b);
-    }
-  }
-
-  function load(keepTime = false) {
-    const g = groups[state.key];
-    if (!g[state.level]) state.level = Object.keys(g).sort()[0];
-    const l = lesson();
-    renderLevels();
-    $("title").textContent = l.title;
-    $("subtitle").textContent = `${l.series} · ${l.title_tr} · Seviye ${l.level}`;
-
-    // Metin
-    const t = $("text"); t.innerHTML = "";
-    let flat = 0;
-    l.paragraphs.forEach(para => {
-      const div = document.createElement("div"); div.className = "para";
-      para.forEach(s => {
-        const i = flat++;
-        const el = document.createElement("div");
-        el.className = "sent"; el.dataset.i = i;
-        el.innerHTML = `<span class="en">${markVocab(esc(s.en), l.vocabulary || [])}` +
-          (s.source ? `<span class="src">${esc(s.source)}</span>` : "") +
-          `</span><span class="tr">${esc(s.tr)}</span>`;
-        el.onclick = () => playSentence(i);
-        div.appendChild(el);
-      });
-      t.appendChild(div);
-    });
-
-    // Kelimeler
-    $("vocab").innerHTML = (l.vocabulary || []).map(v =>
-      `<div class="vc"><b>${esc(v.word)}</b><div class="m">${esc(v.tr)}</div><div class="ex">${esc(v.example || "")}</div></div>`
-    ).join("");
-
-    // Test
-    let correct = 0, answered = 0;
-    $("score").textContent = "";
-    $("quiz").innerHTML = "";
-    (l.quiz || []).forEach((q, qi) => {
-      const d = document.createElement("div"); d.className = "q";
-      d.innerHTML = `<p>${qi + 1}. ${esc(q.q)}</p>`;
-      q.options.forEach((opt, oi) => {
-        const b = document.createElement("button");
-        b.textContent = opt;
-        b.onclick = () => {
-          if (d.dataset.done) return;
-          d.dataset.done = 1; answered++;
-          if (oi === q.answer) { b.classList.add("ok"); correct++; }
-          else { b.classList.add("no"); d.querySelectorAll("button")[q.answer].classList.add("ok"); }
-          if (answered === l.quiz.length) {
-            $("score").textContent = `Sonuç: ${correct} / ${l.quiz.length}`;
-            GD.quiz(l.id, correct, l.quiz.length);
-          }
-        };
-        d.appendChild(b);
-      });
-      $("quiz").appendChild(d);
-    });
-
-    // Kaynaklar
-    $("sources").innerHTML = (l.sources || []).map(s =>
-      `<li>${esc(s.ref)} — ${esc(s.note || "")} ` +
-      (s.verified ? `<span class="okv">✓ kontrol edildi</span>` : `<span class="warn">kontrol bekliyor</span>`) + `</li>`
-    ).join("");
-
-    setAudio(keepTime);
-    if (!keepTime) window.scrollTo(0, 0);
-    showResume();
-  }
-
-  function setAudio(keepTime) {
-    const a = lesson().audio[state.speed] || lesson().audio.normal;
-    const resumeIdx = keepTime ? state.idx : -1;
-    const wasPlaying = keepTime && !player.paused;
-    player.src = a.src;
-    state.idx = -1; state.stopAt = null; highlight(-1);
-    player.onloadedmetadata = () => {
-      if (resumeIdx >= 0) {
-        player.currentTime = timings()[resumeIdx].start;
-        if (wasPlaying) player.play();
+  function renderTree() {
+    const cur = location.hash.split("/")[2];
+    let h = "";
+    for (const t of CATALOG.tracks) {
+      h += `<a class="tr-track" href="#/t/${t.id}">${t.icon || ""} ${esc(t.title)} · ${esc(t.title_tr)}</a>`;
+      for (const s of t.sections) {
+        h += `<a class="tr-sec" href="#/t/${t.id}#${s.id}">${esc(s.title_tr)}</a>`;
+        for (const ls of s.lessons) {
+          const cls = ["tr-les", isReady(ls.id) ? "" : "soon", ls.id === cur ? "cur" : ""].join(" ");
+          h += `<a class="${cls}" href="#/l/${ls.id}"><span class="mk">${isDone(ls.id) ? "✓" : ""}</span><span>${ls.n}. ${esc(ls.title_tr)}</span></a>`;
+        }
       }
+    }
+    $("tree").innerHTML = h;
+    $("tree").querySelectorAll("a").forEach(a => a.addEventListener("click", closeMenu));
+  }
+
+  // ---------- Sayfalar ----------
+  let player = null;   // aktif ders sayfasinin denetleyicisi
+  function route() {
+    if (player) { player.destroy(); player = null; }
+    const parts = location.hash.replace(/^#\/?/, "").split("/");
+    const app = $("app");
+    if (parts[0] === "t" && parts[1]) renderTrack(app, parts[1].split("#")[0]);
+    else if (parts[0] === "l" && parts[1]) renderLesson(app, parts[1]);
+    else renderHome(app);
+    window.scrollTo(0, 0);
+  }
+  window.addEventListener("hashchange", route);
+  GD.onChange(() => { if (!player) route(); else player.refresh(); });
+
+  function renderHome(app) {
+    document.title = "Good Deeds · Learn English";
+    const last = lsGet("gd_last", "");
+    const le = last && findEntry(last);
+    let h = "";
+    if (le && isReady(le.ls.id)) h += `<div class="continue"><span>Son dersiniz: <b>${esc(le.s.title_tr)} · ${le.ls.n}. ${esc(le.ls.title_tr)}</b></span><a href="#/l/${le.ls.id}">Devam et →</a></div>`;
+    h += `<div class="hero"><h2>Nasıl öğrenmek istersiniz?</h2><p>How would you like to learn English?</p></div><div class="tracks">`;
+    for (const t of CATALOG.tracks) {
+      const all = t.sections.flatMap(s => s.lessons), ready = all.filter(l => isReady(l.id)).length;
+      h += `<a class="track-card" href="#/t/${t.id}"><div class="ic">${t.icon || ""}</div><h3>${esc(t.title)}</h3>
+        <div class="tt">${esc(t.title_tr)}</div><div class="ds">${esc(t.desc || "")}</div>
+        <div class="ct">${t.sections.length} ana başlık · ${ready} / ${all.length} ders hazır</div></a>`;
+    }
+    app.innerHTML = h + `</div>`;
+  }
+
+  function renderTrack(app, tid) {
+    const t = CATALOG.tracks.find(x => x.id === tid);
+    if (!t) return renderHome(app);
+    document.title = `${t.title} · Good Deeds`;
+    let h = `<div class="crumbs ui"><a href="#/">Ana sayfa</a> › ${esc(t.title_tr)}</div>
+      <h2 class="page-title">${esc(t.title)}</h2><p class="page-sub">${esc(t.title_tr)}</p>`;
+    for (const s of t.sections) {
+      h += `<div class="section" id="sec-${s.id}"><h3>${esc(s.title)}</h3><div class="st">${esc(s.title_tr)}</div><div class="les-list">`;
+      for (const ls of s.lessons) {
+        h += `<a class="les ${isReady(ls.id) ? "" : "soon"}" href="#/l/${ls.id}"><div class="no">Ders ${ls.n}</div>
+          <div class="t">${esc(ls.title)}</div><div class="tr">${esc(ls.title_tr)}</div>${statusBadge(ls.id)}</a>`;
+      }
+      h += `</div></div>`;
+    }
+    app.innerHTML = h;
+    const anchor = location.hash.split("#")[2];
+    if (anchor) setTimeout(() => document.getElementById("sec-" + anchor)?.scrollIntoView({ behavior: "smooth" }), 50);
+  }
+
+  function pagerHtml(e) {
+    const sib = flat.filter(x => x.t === e.t);
+    const i = sib.indexOf(e), prev = sib[i - 1], next = sib[i + 1];
+    const a = (x, lbl, style) => x ? `<a href="#/l/${x.ls.id}" style="${style}"><span class="lbl">${lbl}</span>${esc(x.s.title_tr)} · ${x.ls.n}. ${esc(x.ls.title_tr)}</a>` : `<span></span>`;
+    return a(prev, "← Önceki ders", "") + a(next, "Sonraki ders →", "text-align:right;margin-left:auto");
+  }
+
+  function renderLesson(app, id) {
+    const e = findEntry(id), group = byBase[id];
+    const crumbs = e ? `<a href="#/">Ana sayfa</a> › <a href="#/t/${e.t.id}">${esc(e.t.title_tr)}</a> › <a href="#/t/${e.t.id}#${e.s.id}">${esc(e.s.title_tr)}</a> › Ders ${e.ls.n}`
+                     : `<a href="#/">Ana sayfa</a>`;
+    if (!group) {
+      document.title = "Yakında · Good Deeds";
+      app.innerHTML = `<div class="crumbs ui">${crumbs}</div><h2 class="page-title">${esc(e?.ls.title || id)}</h2>
+        <p class="page-sub">${esc(e?.ls.title_tr || "")}</p><div class="soon-box">Bu ders hazırlanıyor. Çok yakında burada olacak.</div>
+        ${e ? `<div class="pager">${pagerHtml(e)}</div>` : ""}`;
+      return;
+    }
+    lsSet("gd_last", id);
+    app.innerHTML = "";
+    app.appendChild($("lessonTpl").content.cloneNode(true));
+    app.querySelector("[data-crumbs]").innerHTML = crumbs;
+    app.querySelector("[data-crumbs]").classList.add("ui");
+    app.querySelector("[data-pager]").innerHTML = e ? pagerHtml(e) : "";
+    player = mountPlayer(app, group, e);
+  }
+
+  // ---------- Ders oynatici ----------
+  function mountPlayer(root, group, entry) {
+    const q = s => root.querySelector(s);
+    const audio = q("[data-player]");
+    const levels = Object.keys(group).sort();
+    const st = { level: levels.includes(lsGet("gd_level")) ? lsGet("gd_level") : levels[0], speed: "normal", idx: -1, stopAt: null, alive: true };
+    const lesson = () => group[st.level];
+    const timings = () => (lesson().audio[st.speed] || lesson().audio.normal).sentences;
+
+    function markVocab(html, vocab) {
+      for (const v of vocab) {
+        const b = v.word.replace(/\s*\(.*?\)\s*/g, " ").trim();
+        if (!b) continue;
+        const re = new RegExp(`\\b(${b.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(?:s|es|d|ed)?)\\b(?![^<]*>)`, "gi");
+        html = html.replace(re, `<mark class="vw" title="${esc(v.tr)}">$1</mark>`);
+      }
+      return html;
+    }
+
+    function renderLevels() {
+      const seg = q("[data-levels]"); seg.innerHTML = "";
+      for (const lv of levels) {
+        const b = document.createElement("button");
+        b.textContent = lv; if (lv === st.level) b.className = "on";
+        b.onclick = () => { st.level = lv; lsSet("gd_level", lv); load(); };
+        seg.appendChild(b);
+      }
+    }
+
+    function load(keepTime = false) {
+      const l = lesson();
+      renderLevels();
+      document.title = `${l.title} · Good Deeds`;
+      q("[data-title]").textContent = entry ? `${entry.ls.n}. ${l.title}` : l.title;
+      q("[data-sub]").textContent = `${l.title_tr} · Seviye ${l.level}`;
+
+      const t = q("[data-text]"); t.innerHTML = "";
+      let flatI = 0;
+      l.paragraphs.forEach(para => {
+        const div = document.createElement("div"); div.className = "para";
+        para.forEach(s => {
+          const i = flatI++;
+          const el = document.createElement("div");
+          el.className = "sent"; el.dataset.i = i;
+          el.innerHTML = `<span class="en">${markVocab(esc(s.en), l.vocabulary || [])}` +
+            (s.source ? `<span class="src">${esc(s.source)}</span>` : "") + `</span><span class="tr">${esc(s.tr)}</span>`;
+          el.onclick = () => playSentence(i);
+          div.appendChild(el);
+        });
+        t.appendChild(div);
+      });
+
+      q("[data-vocab]").innerHTML = (l.vocabulary || []).map(v =>
+        `<div class="vc"><b>${esc(v.word)}</b><div class="m">${esc(v.tr)}</div><div class="ex">${esc(v.example || "")}</div></div>`).join("");
+
+      let correct = 0, answered = 0;
+      q("[data-score]").textContent = ""; q("[data-quiz]").innerHTML = "";
+      (l.quiz || []).forEach((qq, qi) => {
+        const d = document.createElement("div"); d.className = "q";
+        d.innerHTML = `<p>${qi + 1}. ${esc(qq.q)}</p>`;
+        qq.options.forEach((opt, oi) => {
+          const b = document.createElement("button"); b.textContent = opt;
+          b.onclick = () => {
+            if (d.dataset.done) return;
+            d.dataset.done = 1; answered++;
+            if (oi === qq.answer) { b.classList.add("ok"); correct++; }
+            else { b.classList.add("no"); d.querySelectorAll("button")[qq.answer].classList.add("ok"); }
+            if (answered === l.quiz.length) { q("[data-score]").textContent = `Sonuç: ${correct} / ${l.quiz.length}`; GD.quiz(l.id, correct, l.quiz.length); }
+          };
+          d.appendChild(b);
+        });
+        q("[data-quiz]").appendChild(d);
+      });
+
+      q("[data-sources]").innerHTML = (l.sources || []).map(s =>
+        `<li>${esc(s.ref)} — ${esc(s.note || "")} ` +
+        (s.verified ? `<span class="okv">✓ kontrol edildi</span>` : `<span class="warn">kontrol bekliyor</span>`) + `</li>`).join("");
+
+      setAudio(keepTime);
+      showResume();
+    }
+
+    function setAudio(keepTime) {
+      const a = lesson().audio[st.speed] || lesson().audio.normal;
+      const resumeIdx = keepTime ? st.idx : -1, wasPlaying = keepTime && !audio.paused;
+      audio.src = a.src;
+      st.idx = -1; st.stopAt = null; highlight(-1);
+      audio.onloadedmetadata = () => {
+        if (resumeIdx >= 0) { audio.currentTime = timings()[resumeIdx].start; if (wasPlaying) audio.play(); }
+      };
+    }
+
+    function showResume() {
+      const l = lesson(), p = GD.get(l.id), n = timings().length, box = q("#resume");
+      if (p && p.last > 0 && p.last < n - 1 && st.idx < 0) {
+        q("[data-resumetxt]").textContent = `Kaldığınız yer: ${p.last + 1}. cümle (toplam ${n})`;
+        q("[data-resumebtn]").onclick = () => { box.classList.remove("show"); playSentence(p.last); };
+        box.classList.add("show");
+      } else box.classList.remove("show");
+    }
+
+    function playSentence(i) {
+      audio.currentTime = timings()[i].start;
+      st.stopAt = q("[data-stopchk]").checked ? i : null;
+      audio.play();
+    }
+
+    function highlight(i) {
+      if (i === st.idx) return;
+      st.idx = i;
+      if (i >= 0) { GD.sentence(lesson().id, i, timings().length); q("#resume").classList.remove("show"); }
+      root.querySelectorAll(".sent.active").forEach(e => e.classList.remove("active"));
+      if (i < 0) return;
+      const el = root.querySelector(`.sent[data-i="${i}"]`);
+      if (el) {
+        el.classList.add("active");
+        const r = el.getBoundingClientRect();
+        if (r.top < 240 || r.bottom > innerHeight - 40) el.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    }
+
+    function tick() {
+      if (!st.alive) return;
+      const tm = timings(), t = audio.currentTime;
+      let i = -1;
+      for (let k = 0; k < tm.length; k++) { if (t >= tm[k].start - 0.05) i = k; else break; }
+      highlight(i);
+      if (q("[data-stopchk]").checked && !audio.paused && i >= 0) {
+        if (st.stopAt === null) st.stopAt = i;
+        if (t >= tm[st.stopAt].end) { audio.pause(); st.stopAt = Math.min(st.stopAt + 1, tm.length - 1); }
+      }
+      if (!audio.paused) requestAnimationFrame(tick);
+    }
+    audio.addEventListener("play", () => requestAnimationFrame(tick));
+    audio.addEventListener("seeked", tick);
+    audio.addEventListener("seeking", () => { st.stopAt = null; });
+
+    q("[data-speeds]").querySelectorAll("button").forEach(b => b.onclick = () => {
+      st.speed = b.dataset.v;
+      q("[data-speeds]").querySelectorAll("button").forEach(x => x.classList.toggle("on", x === b));
+      setAudio(true);
+    });
+    const trChk = q("[data-trchk]");
+    trChk.checked = lsGet("gd_tr", "1") === "1";
+    document.body.classList.toggle("hide-tr", !trChk.checked);
+    trChk.onchange = () => { document.body.classList.toggle("hide-tr", !trChk.checked); lsSet("gd_tr", trChk.checked ? "1" : "0"); };
+    q("[data-stopchk]").onchange = () => { st.stopAt = null; };
+
+    const onKey = e => {
+      if (["SELECT", "INPUT", "TEXTAREA"].includes(e.target.tagName) || $("drawer").classList.contains("open")) return;
+      const n = timings().length;
+      if (e.code === "Space") { e.preventDefault(); audio.paused ? audio.play() : audio.pause(); }
+      if (e.code === "ArrowRight") { e.preventDefault(); playSentence(Math.min(Math.max(st.idx, -1) + 1, n - 1)); }
+      if (e.code === "ArrowLeft") { e.preventDefault(); playSentence(Math.max(st.idx - 1, 0)); }
+    };
+    document.addEventListener("keydown", onKey);
+
+    load();
+    return {
+      refresh: showResume,
+      destroy() { st.alive = false; audio.pause(); audio.removeAttribute("src"); audio.load(); document.removeEventListener("keydown", onKey); }
     };
   }
 
-  function playSentence(i) {
-    const s = timings()[i];
-    player.currentTime = s.start;
-    state.stopAt = $("stopChk").checked ? i : null;
-    player.play();
-  }
-
-  function highlight(i) {
-    if (i === state.idx) return;
-    state.idx = i;
-    if (i >= 0) { GD.sentence(lesson().id, i, timings().length); $("resume").classList.remove("show"); }
-    document.querySelectorAll(".sent.active").forEach(e => e.classList.remove("active"));
-    if (i < 0) return;
-    const el = document.querySelector(`.sent[data-i="${i}"]`);
-    if (el) {
-      el.classList.add("active");
-      const r = el.getBoundingClientRect();
-      if (r.top < 180 || r.bottom > innerHeight - 40) el.scrollIntoView({ behavior: "smooth", block: "center" });
-    }
-  }
-
-  function tick() {
-    const tm = timings(), t = player.currentTime;
-    let i = -1;
-    for (let k = 0; k < tm.length; k++) { if (t >= tm[k].start - 0.05) i = k; else break; }
-    highlight(i);
-    // "Her cumleden sonra dur" modu
-    if ($("stopChk").checked && !player.paused && i >= 0) {
-      if (state.stopAt === null) state.stopAt = i;
-      if (t >= tm[state.stopAt].end) { player.pause(); state.stopAt = Math.min(state.stopAt + 1, tm.length - 1); }
-    }
-    if (!player.paused) requestAnimationFrame(tick);
-  }
-  player.addEventListener("play", () => requestAnimationFrame(tick));
-  player.addEventListener("seeked", tick);
-  player.addEventListener("seeking", () => { state.stopAt = null; });
-
-  $("partSel").onchange = e => { state.key = e.target.value; load(); };
-  $("speedSeg").querySelectorAll("button").forEach(b => b.onclick = () => {
-    state.speed = b.dataset.v;
-    $("speedSeg").querySelectorAll("button").forEach(x => x.classList.toggle("on", x === b));
-    setAudio(true);
-  });
-  $("trChk").onchange = e => document.body.classList.toggle("hide-tr", !e.target.checked);
-  $("stopChk").onchange = () => { state.stopAt = null; };
-
-  // Klavye: bosluk = oynat/durdur, sol/sag ok = onceki/sonraki cumle
-  document.addEventListener("keydown", e => {
-    if (e.target.tagName === "SELECT" || e.target.tagName === "INPUT") return;
-    const n = timings().length;
-    if (e.code === "Space") { e.preventDefault(); player.paused ? player.play() : player.pause(); }
-    if (e.code === "ArrowRight") { e.preventDefault(); playSentence(Math.min(Math.max(state.idx, -1) + 1, n - 1)); }
-    if (e.code === "ArrowLeft") { e.preventDefault(); playSentence(Math.max(state.idx - 1, 0)); }
-  });
-
-  state.key = keys[0];
-  state.level = Object.keys(groups[state.key]).sort()[0];
-  load();
+  route();
 })();
 </script>
 </body>
