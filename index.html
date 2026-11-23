@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Good Deeds · Learn English with Islamic Values</title>
+<style>
+  :root {
+    --bg: #f7f4ee; --card: #ffffff; --ink: #1f2a2e; --muted: #6b7478;
+    --accent: #1f6f5c; --accent-soft: #e3f1ec; --hl: #fff2c2; --line: #e6e1d8;
+    --wrong: #b3473a;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+         font: 17px/1.6 Georgia, "Times New Roman", serif; }
+  header { background: var(--accent); color: #fff; padding: 18px 20px; }
+  header h1 { margin: 0; font-size: 1.5rem; font-weight: normal; letter-spacing: .03em; }
+  header .logo { color: #f3d98b; }
+  header p { margin: 2px 0 0; opacity: .8; font-size: .9rem; font-family: system-ui, sans-serif; }
+  main { max-width: 820px; margin: 0 auto; padding: 16px 16px 80px; }
+  .ui, button, select { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
+
+  .controls { position: sticky; top: 0; z-index: 5; background: var(--card);
+              border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px;
+              margin: 12px 0 20px; box-shadow: 0 2px 10px rgba(0,0,0,.05); }
+  .row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .row + .row { margin-top: 10px; }
+  select { font-size: .95rem; padding: 6px 8px; border-radius: 8px; border: 1px solid var(--line); }
+  .seg { display: inline-flex; border: 1px solid var(--accent); border-radius: 8px; overflow: hidden; }
+  .seg button { border: 0; background: #fff; color: var(--accent); padding: 6px 12px;
+                font-size: .9rem; cursor: pointer; }
+  .seg button.on { background: var(--accent); color: #fff; }
+  label.chk { font-size: .9rem; display: inline-flex; gap: 6px; align-items: center; cursor: pointer; }
+  audio { width: 100%; }
+
+  h2 { font-size: 1.5rem; margin: 6px 0 2px; }
+  .sub { color: var(--muted); margin: 0 0 18px; font-family: system-ui, sans-serif; font-size: .95rem; }
+  .para { background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+          padding: 10px 12px; margin-bottom: 14px; }
+  .sent { padding: 6px 8px; border-radius: 8px; cursor: pointer; transition: background .15s; }
+  .sent:hover { background: #f3f0ea; }
+  .sent.active { background: var(--hl); }
+  .en { display: block; }
+  .tr { display: block; color: var(--accent); font-size: .92rem; font-style: italic; margin-top: 2px; }
+  body.hide-tr .tr { display: none; }
+  .src { font-family: system-ui, sans-serif; font-size: .72rem; color: var(--muted);
+         border: 1px solid var(--line); border-radius: 6px; padding: 0 5px; margin-left: 6px; }
+  mark.vw { background: none; border-bottom: 2px dotted var(--accent); color: inherit; }
+
+  section.box { background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+                padding: 14px 16px; margin-top: 26px; }
+  section.box h3 { margin: 0 0 10px; font-size: 1.1rem; }
+  .vocab { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; }
+  .vc { border: 1px solid var(--line); border-radius: 10px; padding: 8px 10px; }
+  .vc b { color: var(--accent); }
+  .vc .m { font-family: system-ui, sans-serif; font-size: .9rem; }
+  .vc .ex { color: var(--muted); font-size: .88rem; font-style: italic; }
+  .q { margin-bottom: 14px; }
+  .q p { margin: 0 0 6px; font-weight: bold; }
+  .q button { display: block; width: 100%; text-align: left; margin: 4px 0; padding: 8px 10px;
+              border: 1px solid var(--line); border-radius: 8px; background: #fff;
+              cursor: pointer; font-size: .95rem; }
+  .q button.ok { background: var(--accent-soft); border-color: var(--accent); }
+  .q button.no { background: #f8e6e3; border-color: var(--wrong); }
+  .score { font-family: system-ui, sans-serif; font-weight: bold; color: var(--accent); }
+  .sources li { font-family: system-ui, sans-serif; font-size: .9rem; margin-bottom: 4px; }
+  .warn { color: var(--wrong); font-size: .8rem; }
+  .okv { color: var(--accent); font-size: .8rem; }
+</style>
+</head>
+<body>
+<header>
+  <h1><span class="logo">✦</span> Good Deeds</h1>
+  <p>Learn English with Islamic Values · İslami değerlerle İngilizce öğren</p>
+</header>
+
+<main>
+  <div class="controls ui">
+    <div class="row">
+      <select id="partSel" aria-label="Ders"></select>
+      <span class="seg" id="levelSeg"></span>
+      <span class="seg" id="speedSeg">
+        <button data-v="normal" class="on">Normal</button>
+        <button data-v="slow">Yavaş</button>
+      </span>
+    </div>
+    <div class="row">
+      <label class="chk"><input type="checkbox" id="trChk" checked> Türkçe çeviri</label>
+      <label class="chk"><input type="checkbox" id="stopChk"> Her cümleden sonra dur</label>
+    </div>
+    <div class="row"><audio id="player" controls preload="metadata"></audio></div>
+  </div>
+
+  <h2 id="title"></h2>
+  <p class="sub" id="subtitle"></p>
+  <div id="text"></div>
+
+  <section class="box"><h3>Kelimeler · Vocabulary</h3><div class="vocab" id="vocab"></div></section>
+  <section class="box"><h3>Kısa Test · Quiz</h3><div id="quiz"></div><div class="score" id="score"></div></section>
+  <section class="box"><h3>Kaynaklar · Sources</h3><ul class="sources" id="sources"></ul></section>
+</main>
+
+<script src="data.js"></script>
+<script>
+(() => {
+  const L = window.LESSONS || [];
+  const $ = id => document.getElementById(id);
+  const player = $("player");
+  const state = { key: null, level: null, speed: "normal", idx: -1, stopAt: null };
+
+  // Dersleri seri+bolum anahtarina gore grupla: { "seri|1": { A2: lesson, B1: lesson } }
+  const groups = {};
+  for (const l of L) {
+    const k = `${l.series}|${l.part}`;
+    (groups[k] ||= {})[l.level] = l;
+  }
+  const keys = Object.keys(groups);
+  if (!keys.length) { $("text").textContent = "Ders bulunamadı (data.js boş)."; return; }
+
+  for (const k of keys) {
+    const any = Object.values(groups[k])[0];
+    const o = document.createElement("option");
+    o.value = k; o.textContent = `Bölüm ${any.part}: ${any.title}`;
+    $("partSel").appendChild(o);
+  }
+
+  const esc = s => s.replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const lesson = () => groups[state.key][state.level];
+  const timings = () => (lesson().audio[state.speed] || lesson().audio.normal).sentences;
+
+  function markVocab(html, vocab) {
+    for (const v of vocab) {
+      const base = v.word.replace(/\s*\(.*?\)\s*/g, " ").trim();
+      if (!base) continue;
+      const re = new RegExp(`\\b(${base.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(?:s|es|d|ed)?)\\b(?![^<]*>)`, "gi");
+      html = html.replace(re, `<mark class="vw" title="${esc(v.tr)}">$1</mark>`);
+    }
+    return html;
+  }
+
+  function renderLevels() {
+    const seg = $("levelSeg"); seg.innerHTML = "";
+    for (const lv of Object.keys(groups[state.key]).sort()) {
+      const b = document.createElement("button");
+      b.textContent = lv; b.dataset.v = lv;
+      if (lv === state.level) b.className = "on";
+      b.onclick = () => { state.level = lv; load(); };
+      seg.appendChild(b);
+    }
+  }
+
+  function load(keepTime = false) {
+    const g = groups[state.key];
+    if (!g[state.level]) state.level = Object.keys(g).sort()[0];
+    const l = lesson();
+    renderLevels();
+    $("title").textContent = l.title;
+    $("subtitle").textContent = `${l.series} · ${l.title_tr} · Seviye ${l.level}`;
+
+    // Metin
+    const t = $("text"); t.innerHTML = "";
+    let flat = 0;
+    l.paragraphs.forEach(para => {
+      const div = document.createElement("div"); div.className = "para";
+      para.forEach(s => {
+        const i = flat++;
+        const el = document.createElement("div");
+        el.className = "sent"; el.dataset.i = i;
+        el.innerHTML = `<span class="en">${markVocab(esc(s.en), l.vocabulary || [])}` +
+          (s.source ? `<span class="src">${esc(s.source)}</span>` : "") +
+          `</span><span class="tr">${esc(s.tr)}</span>`;
+        el.onclick = () => playSentence(i);
+        div.appendChild(el);
+      });
+      t.appendChild(div);
+    });
+
+    // Kelimeler
+    $("vocab").innerHTML = (l.vocabulary || []).map(v =>
+      `<div class="vc"><b>${esc(v.word)}</b><div class="m">${esc(v.tr)}</div><div class="ex">${esc(v.example || "")}</div></div>`
+    ).join("");
+
+    // Test
+    let correct = 0, answered = 0;
+    $("score").textContent = "";
+    $("quiz").innerHTML = "";
+    (l.quiz || []).forEach((q, qi) => {
+      const d = document.createElement("div"); d.className = "q";
+      d.innerHTML = `<p>${qi + 1}. ${esc(q.q)}</p>`;
+      q.options.forEach((opt, oi) => {
+        const b = document.createElement("button");
+        b.textContent = opt;
+        b.onclick = () => {
+          if (d.dataset.done) return;
+          d.dataset.done = 1; answered++;
+          if (oi === q.answer) { b.classList.add("ok"); correct++; }
+          else { b.classList.add("no"); d.querySelectorAll("button")[q.answer].classList.add("ok"); }
+          if (answered === l.quiz.length) $("score").textContent = `Sonuç: ${correct} / ${l.quiz.length}`;
+        };
+        d.appendChild(b);
+      });
+      $("quiz").appendChild(d);
+    });
+
+    // Kaynaklar
+    $("sources").innerHTML = (l.sources || []).map(s =>
+      `<li>${esc(s.ref)} — ${esc(s.note || "")} ` +
+      (s.verified ? `<span class="okv">✓ kontrol edildi</span>` : `<span class="warn">kontrol bekliyor</span>`) + `</li>`
+    ).join("");
+
+    setAudio(keepTime);
+    if (!keepTime) window.scrollTo(0, 0);
+  }
+
+  function setAudio(keepTime) {
+    const a = lesson().audio[state.speed] || lesson().audio.normal;
+    const resumeIdx = keepTime ? state.idx : -1;
+    const wasPlaying = keepTime && !player.paused;
+    player.src = a.src;
+    state.idx = -1; state.stopAt = null; highlight(-1);
+    player.onloadedmetadata = () => {
+      if (resumeIdx >= 0) {
+        player.currentTime = timings()[resumeIdx].start;
+        if (wasPlaying) player.play();
+      }
+    };
+  }
+
+  function playSentence(i) {
+    const s = timings()[i];
+    player.currentTime = s.start;
+    state.stopAt = $("stopChk").checked ? i : null;
+    player.play();
+  }
+
+  function highlight(i) {
+    if (i === state.idx) return;
+    state.idx = i;
+    document.querySelectorAll(".sent.active").forEach(e => e.classList.remove("active"));
+    if (i < 0) return;
+    const el = document.querySelector(`.sent[data-i="${i}"]`);
+    if (el) {
+      el.classList.add("active");
+      const r = el.getBoundingClientRect();
+      if (r.top < 180 || r.bottom > innerHeight - 40) el.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }
+
+  function tick() {
+    const tm = timings(), t = player.currentTime;
+    let i = -1;
+    for (let k = 0; k < tm.length; k++) { if (t >= tm[k].start - 0.05) i = k; else break; }
+    highlight(i);
+    // "Her cumleden sonra dur" modu
+    if ($("stopChk").checked && !player.paused && i >= 0) {
+      if (state.stopAt === null) state.stopAt = i;
+      if (t >= tm[state.stopAt].end) { player.pause(); state.stopAt = Math.min(state.stopAt + 1, tm.length - 1); }
+    }
+    if (!player.paused) requestAnimationFrame(tick);
+  }
+  player.addEventListener("play", () => requestAnimationFrame(tick));
+  player.addEventListener("seeked", tick);
+  player.addEventListener("seeking", () => { state.stopAt = null; });
+
+  $("partSel").onchange = e => { state.key = e.target.value; load(); };
+  $("speedSeg").querySelectorAll("button").forEach(b => b.onclick = () => {
+    state.speed = b.dataset.v;
+    $("speedSeg").querySelectorAll("button").forEach(x => x.classList.toggle("on", x === b));
+    setAudio(true);
+  });
+  $("trChk").onchange = e => document.body.classList.toggle("hide-tr", !e.target.checked);
+  $("stopChk").onchange = () => { state.stopAt = null; };
+
+  // Klavye: bosluk = oynat/durdur, sol/sag ok = onceki/sonraki cumle
+  document.addEventListener("keydown", e => {
+    if (e.target.tagName === "SELECT" || e.target.tagName === "INPUT") return;
+    const n = timings().length;
+    if (e.code === "Space") { e.preventDefault(); player.paused ? player.play() : player.pause(); }
+    if (e.code === "ArrowRight") { e.preventDefault(); playSentence(Math.min(Math.max(state.idx, -1) + 1, n - 1)); }
+    if (e.code === "ArrowLeft") { e.preventDefault(); playSentence(Math.max(state.idx - 1, 0)); }
+  });
+
+  state.key = keys[0];
+  state.level = Object.keys(groups[state.key]).sort()[0];
+  load();
+})();
+</script>
+</body>
+</html>
