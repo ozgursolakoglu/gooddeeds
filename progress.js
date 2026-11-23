@@ -10,7 +10,22 @@
   const cache = {};            // lesson_id -> {last, completed, quiz, total}
   const pending = new Set();   // sunucuya gonderilecek ders id'leri
   const listeners = [];
-  let user = null, timer = null;
+  let user = null, timer = null, authReady = !sb;
+  const authListeners = [];
+  const emitAuth = () => authListeners.forEach(f => { try { f(user); } catch (e) { console.error(e); } });
+
+  async function signIn(email, marketing) {
+    if (!sb) return { message: "Giriş sistemi yapılandırılmamış." };
+    const now = new Date().toISOString();
+    const { error } = await sb.auth.signInWithOtp({
+      email: email.trim(),
+      options: {
+        emailRedirectTo: location.origin + location.pathname,
+        data: { kvkk_accepted_at: now, marketing_consent: !!marketing, marketing_consent_at: marketing ? now : null }
+      }
+    });
+    return error;
+  }
 
   const readLocal = () => { try { return JSON.parse(localStorage.getItem(LS_KEY)) || {}; } catch { return {}; } };
   const writeLocal = () => { try { localStorage.setItem(LS_KEY, JSON.stringify(cache)); } catch {} };
@@ -64,6 +79,11 @@
   document.addEventListener("visibilitychange", () => { if (document.hidden) flush(); });
 
   window.GD = {
+    hasAuth: !!sb,
+    user: () => user,
+    authReady: () => authReady,
+    onAuth: f => authListeners.push(f),
+    signIn,
     get: id => cache[id],
     isCompleted: id => !!cache[id]?.completed,
     onChange: f => listeners.push(f),
@@ -113,18 +133,7 @@
     e.preventDefault();
     const btn = document.getElementById("amSend"), msg = document.getElementById("amMsg");
     btn.disabled = true; msg.textContent = "Gönderiliyor…"; msg.className = "am-msg";
-    const now = new Date().toISOString();
-    const { error } = await sb.auth.signInWithOtp({
-      email: document.getElementById("amEmail").value.trim(),
-      options: {
-        emailRedirectTo: location.origin + location.pathname,
-        data: {
-          kvkk_accepted_at: now,
-          marketing_consent: document.getElementById("amMarketing").checked,
-          marketing_consent_at: document.getElementById("amMarketing").checked ? now : null
-        }
-      }
-    });
+    const error = await signIn(document.getElementById("amEmail").value, document.getElementById("amMarketing").checked);
     btn.disabled = false;
     if (error) { msg.textContent = "Gönderilemedi: " + error.message; msg.className = "am-msg err"; }
     else { msg.textContent = "E-postanıza bir giriş bağlantısı gönderdik. Gelen kutunuzu (ve gereksiz klasörünü) kontrol edin."; msg.className = "am-msg ok"; }
@@ -143,9 +152,13 @@
   sb.auth.onAuthStateChange((_event, session) => {
     const changed = (session?.user?.id || null) !== (user?.id || null);
     user = session?.user || null;
+    authReady = true;
     render();
     if (user) close();
-    if (changed) setTimeout(loadAll, 0);
+    if (changed) { setTimeout(loadAll, 0); emitAuth(); }
   });
-  sb.auth.getSession().then(({ data }) => { user = data.session?.user || null; render(); loadAll(); });
+  sb.auth.getSession().then(({ data }) => {
+    user = data.session?.user || null; authReady = true;
+    render(); loadAll(); emitAuth();
+  });
 })();

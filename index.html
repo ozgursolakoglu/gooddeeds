@@ -133,6 +133,14 @@
   .pager a { text-decoration: none; border: 1px solid var(--line); background: var(--card); border-radius: 10px; padding: 10px 14px; max-width: 48%; }
   .pager a:hover { border-color: var(--accent); }
   .pager .lbl { display: block; color: var(--muted); font-size: .78rem; }
+  .gate { max-width: 480px; margin: 30px auto; background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 28px 24px; }
+  .gate h2 { margin: 0 0 6px; font-weight: normal; font-size: 1.6rem; text-align: center; }
+  .gate .lead { text-align: center; color: var(--muted); font: .95rem system-ui, sans-serif; margin: 0 0 18px; }
+  .gate .mini { display: flex; gap: 10px; justify-content: center; margin-bottom: 18px; font: .85rem system-ui, sans-serif; color: var(--accent); flex-wrap: wrap; }
+  .gate .mini span { background: var(--accent-soft); border-radius: 20px; padding: 4px 12px; }
+  .gate input[type=email] { width: 100%; padding: 11px 12px; font-size: 1rem; border: 1px solid var(--line); border-radius: 8px; margin-bottom: 10px; }
+  .gate .gbtn { width: 100%; background: var(--accent); color: #fff; border: 0; border-radius: 8px; padding: 11px; font-size: 1rem; cursor: pointer; margin-top: 6px; }
+  .gate .gbtn:disabled { opacity: .6; }
   .soon-box { background: var(--card); border: 1px dashed var(--line); border-radius: 14px; padding: 40px 20px; text-align: center; color: var(--muted); font-family: system-ui, sans-serif; }
 
   /* ---------- Giris penceresi ---------- */
@@ -196,11 +204,11 @@
   <div class="pager" data-pager></div>
 </template>
 
-<script src="data.js?v=1795460332"></script>
-<script src="catalog.js?v=1795460332"></script>
-<script src="config.js?v=1795460332"></script>
-<script src="supabase.js?v=1795460332"></script>
-<script src="progress.js?v=1795460332"></script>
+<script src="data.js?v=1795460742"></script>
+<script src="catalog.js?v=1795460742"></script>
+<script src="config.js?v=1795460742"></script>
+<script src="supabase.js?v=1795460742"></script>
+<script src="progress.js?v=1795460742"></script>
 <script>
 (() => {
   const LESSONS = window.LESSONS || [];
@@ -254,17 +262,49 @@
 
   // ---------- Sayfalar ----------
   let player = null;   // aktif ders sayfasinin denetleyicisi
+  const needLogin = () => !!(window.GD_CONFIG || {}).requireLogin && GD.hasAuth && !GD.user();
   function route() {
     if (player) { player.destroy(); player = null; }
     const parts = location.hash.replace(/^#\/?/, "").split("/");
     const app = $("app");
+    if (GD.hasAuth && GD.authReady && !GD.authReady()) { app.innerHTML = `<p class="ui" style="text-align:center;color:var(--muted);margin-top:60px">Yükleniyor…</p>`; return; }
+    if (needLogin()) { renderGate(app); window.scrollTo(0, 0); return; }
     if (parts[0] === "t" && parts[1]) renderTrack(app, parts[1].split("#")[0]);
     else if (parts[0] === "l" && parts[1]) renderLesson(app, parts[1]);
     else renderHome(app);
     window.scrollTo(0, 0);
   }
   window.addEventListener("hashchange", route);
-  GD.onChange(() => { if (!player) route(); else player.refresh(); });
+  if (GD.onAuth) GD.onAuth(() => route());
+
+  function renderGate(app) {
+    document.title = "Hoş geldiniz · Good Deeds";
+    const names = CATALOG.tracks.map(t => `<span>${t.icon || ""} ${esc(t.title_tr)}</span>`).join("");
+    app.innerHTML = `<div class="gate ui">
+      <h2>Good Deeds'e hoş geldiniz</h2>
+      <p class="lead">Sesli derslerle İngilizce öğrenin. Başlamak için e-posta adresinizle giriş yapın; şifre gerekmez.</p>
+      <div class="mini">${names}</div>
+      <form id="gForm">
+        <input type="email" id="gEmail" required placeholder="ornek@eposta.com" autocomplete="email">
+        <label class="am-chk"><input type="checkbox" id="gKvkk" required>
+          <span><a href="gizlilik.html" target="_blank">Aydınlatma metnini</a> okudum; verilerimin bu metinde belirtilen şekilde işlenmesini ve yurt dışındaki sunuculara aktarılmasını kabul ediyorum.</span></label>
+        <label class="am-chk"><input type="checkbox" id="gMk">
+          <span>Yeni dersler ve duyurular hakkında e-posta almak istiyorum. (İsteğe bağlı)</span></label>
+        <button class="gbtn" id="gSend" type="submit">Giriş bağlantısı gönder</button>
+      </form>
+      <p class="am-msg" id="gMsg"></p>
+    </div>`;
+    $("gForm").onsubmit = async ev => {
+      ev.preventDefault();
+      const btn = $("gSend"), msg = $("gMsg");
+      btn.disabled = true; msg.className = "am-msg"; msg.textContent = "Gönderiliyor…";
+      const err = await GD.signIn($("gEmail").value, $("gMk").checked);
+      btn.disabled = false;
+      if (err) { msg.className = "am-msg err"; msg.textContent = "Gönderilemedi: " + err.message; }
+      else { msg.className = "am-msg ok"; msg.textContent = "E-postanıza bir giriş bağlantısı gönderdik. Bağlantıya tıkladığınızda dersler açılacak. (Gereksiz klasörünü de kontrol edin.)"; }
+    };
+  }
+  GD.onChange(() => { if (player) player.refresh(); else if (!needLogin()) route(); });
 
   function renderHome(app) {
     document.title = "Good Deeds · Learn English";
