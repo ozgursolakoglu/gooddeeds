@@ -32,10 +32,10 @@ window.CATALOG = {
           { id: "tawakkul_04", title: "Living with Tawakkul Today", title_tr: "Bugün tevekkülle yaşamak" }
         ]},
         { id: "ihsan", title: "Ihsan: Excellence", title_tr: "İhsan", lessons: [
-          { id: "ihsan_01", title: "Lesson 1", title_tr: "Ders 1" },
-          { id: "ihsan_02", title: "Lesson 2", title_tr: "Ders 2" },
-          { id: "ihsan_03", title: "Lesson 3", title_tr: "Ders 3" },
-          { id: "ihsan_04", title: "Lesson 4", title_tr: "Ders 4" }
+          { id: "ihsan_01", title: "What is Ihsan?", title_tr: "İhsan nedir?" },
+          { id: "ihsan_02", title: "The Excellence of the Prophets", title_tr: "Peygamberlerin ihsanı" },
+          { id: "ihsan_03", title: "Ihsan to People and Creation", title_tr: "İnsanlara ve tüm canlılara ihsan" },
+          { id: "ihsan_04", title: "Living with Ihsan Today", title_tr: "Bugün ihsanla yaşamak" }
         ]}
       ]
     },
