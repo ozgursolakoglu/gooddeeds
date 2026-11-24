@@ -20,10 +20,10 @@ window.CATALOG = {
           { id: "sabr_04", title: "Living with Sabr Today", title_tr: "Bugün sabırla yaşamak" }
         ]},
         { id: "shukr", title: "Shukr: Gratitude", title_tr: "Şükür", lessons: [
-          { id: "shukr_01", title: "Lesson 1", title_tr: "Ders 1" },
-          { id: "shukr_02", title: "Lesson 2", title_tr: "Ders 2" },
-          { id: "shukr_03", title: "Lesson 3", title_tr: "Ders 3" },
-          { id: "shukr_04", title: "Lesson 4", title_tr: "Ders 4" }
+          { id: "shukr_01", title: "What is Shukr?", title_tr: "Şükür nedir?" },
+          { id: "shukr_02", title: "The Gratitude of the Prophets", title_tr: "Peygamberlerin şükrü" },
+          { id: "shukr_03", title: "Shukr and Sabr Together", title_tr: "Şükür ve sabır bir arada" },
+          { id: "shukr_04", title: "Living with Shukr Today", title_tr: "Bugün şükürle yaşamak" }
         ]},
         { id: "tawakkul", title: "Tawakkul: Trust in Allah", title_tr: "Tevekkül", lessons: [
           { id: "tawakkul_01", title: "Lesson 1", title_tr: "Ders 1" },
