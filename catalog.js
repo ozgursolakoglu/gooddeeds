@@ -26,10 +26,10 @@ window.CATALOG = {
           { id: "shukr_04", title: "Living with Shukr Today", title_tr: "Bugün şükürle yaşamak" }
         ]},
         { id: "tawakkul", title: "Tawakkul: Trust in Allah", title_tr: "Tevekkül", lessons: [
-          { id: "tawakkul_01", title: "Lesson 1", title_tr: "Ders 1" },
-          { id: "tawakkul_02", title: "Lesson 2", title_tr: "Ders 2" },
-          { id: "tawakkul_03", title: "Lesson 3", title_tr: "Ders 3" },
-          { id: "tawakkul_04", title: "Lesson 4", title_tr: "Ders 4" }
+          { id: "tawakkul_01", title: "What is Tawakkul?", title_tr: "Tevekkül nedir?" },
+          { id: "tawakkul_02", title: "The Trust of the Prophets", title_tr: "Peygamberlerin tevekkülü" },
+          { id: "tawakkul_03", title: "Tawakkul in Hard Times", title_tr: "Zor zamanlarda tevekkül" },
+          { id: "tawakkul_04", title: "Living with Tawakkul Today", title_tr: "Bugün tevekkülle yaşamak" }
         ]},
         { id: "ihsan", title: "Ihsan: Excellence", title_tr: "İhsan", lessons: [
           { id: "ihsan_01", title: "Lesson 1", title_tr: "Ders 1" },
