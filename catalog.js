@@ -60,6 +60,30 @@ window.CATALOG = {
           { id: "taqwa_02", title: "The Taqwa of the Prophets", title_tr: "Peygamberlerin takvası" },
           { id: "taqwa_03", title: "Taqwa Opens a Way Out", title_tr: "Takva ve kurtuluş" },
           { id: "taqwa_04", title: "Living with Taqwa Today", title_tr: "Bugün takvayla yaşamak" }
+        ]},
+        { id: "rahmah", title: "Rahmah: Mercy", title_tr: "Merhamet", lessons: [
+          { id: "rahmah_01", title: "What is Rahmah?", title_tr: "Merhamet nedir?" },
+          { id: "rahmah_02", title: "The Mercy of the Prophets", title_tr: "Peygamberlerin merhameti" },
+          { id: "rahmah_03", title: "Mercy to People and Animals", title_tr: "İnsanlara ve hayvanlara merhamet" },
+          { id: "rahmah_04", title: "Living with Rahmah Today", title_tr: "Bugün merhametle yaşamak" }
+        ]},
+        { id: "sidq", title: "Sidq: Truthfulness", title_tr: "Sıdk (Doğruluk)", lessons: [
+          { id: "sidq_01", title: "What is Sidq?", title_tr: "Sıdk nedir?" },
+          { id: "sidq_02", title: "The Truthfulness of the Prophets", title_tr: "Peygamberlerin doğruluğu" },
+          { id: "sidq_03", title: "Truthfulness in Hard Times", title_tr: "Zor zamanda doğruluk" },
+          { id: "sidq_04", title: "Living with Sidq Today", title_tr: "Bugün doğrulukla yaşamak" }
+        ]},
+        { id: "haya", title: "Haya: Modesty", title_tr: "Hayâ", lessons: [
+          { id: "haya_01", title: "What is Haya?", title_tr: "Hayâ nedir?" },
+          { id: "haya_02", title: "The Haya of the Prophets", title_tr: "Peygamberlerin hayâsı" },
+          { id: "haya_03", title: "Haya before Allah", title_tr: "Allah'tan hayâ etmek" },
+          { id: "haya_04", title: "Living with Haya Today", title_tr: "Bugün hayâyla yaşamak" }
+        ]},
+        { id: "tawadu", title: "Tawadu': Humility", title_tr: "Tevazu", lessons: [
+          { id: "tawadu_01", title: "What is Tawadu'?", title_tr: "Tevazu nedir?" },
+          { id: "tawadu_02", title: "The Humility of the Prophets", title_tr: "Peygamberlerin tevazuu" },
+          { id: "tawadu_03", title: "Humility and Arrogance", title_tr: "Tevazu ve kibir" },
+          { id: "tawadu_04", title: "Living with Tawadu' Today", title_tr: "Bugün tevazuyla yaşamak" }
         ]}
       ]
     },
