@@ -204,11 +204,11 @@
   <div class="pager" data-pager></div>
 </template>
 
-<script src="data.js?v=1795557376"></script>
-<script src="catalog.js?v=1795557376"></script>
-<script src="config.js?v=1795557376"></script>
-<script src="supabase.js?v=1795557376"></script>
-<script src="progress.js?v=1795557376"></script>
+<script src="data.js?v=1795583009"></script>
+<script src="catalog.js?v=1795583009"></script>
+<script src="config.js?v=1795583009"></script>
+<script src="supabase.js?v=1795583009"></script>
+<script src="progress.js?v=1795583009"></script>
 <script>
 (() => {
   const LESSONS = window.LESSONS || [];
@@ -445,6 +445,7 @@
       q("[data-sources]").innerHTML = (l.sources || []).map(s =>
         `<li>${esc(s.ref)} — ${esc(s.note || "")} ` +
         (s.verified ? `<span class="okv">✓ kontrol edildi</span>` : `<span class="warn">kontrol bekliyor</span>`) + `</li>`).join("");
+      q("[data-sources]").closest("section").style.display = (l.sources || []).length ? "" : "none";
 
       setAudio(keepTime);
       showResume();

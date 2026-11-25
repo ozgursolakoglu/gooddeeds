@@ -47,28 +47,28 @@ window.CATALOG = {
       desc: "Günlük hayattan konularla genel İngilizce",
       sections: [
         { id: "daily", title: "Daily Life", title_tr: "Günlük Hayat", lessons: [
-          { id: "daily_01", title: "Lesson 1", title_tr: "Ders 1" },
-          { id: "daily_02", title: "Lesson 2", title_tr: "Ders 2" },
-          { id: "daily_03", title: "Lesson 3", title_tr: "Ders 3" },
-          { id: "daily_04", title: "Lesson 4", title_tr: "Ders 4" }
+          { id: "daily_01", title: "My Morning Routine", title_tr: "Sabah rutinim" },
+          { id: "daily_02", title: "At the Market", title_tr: "Pazarda" },
+          { id: "daily_03", title: "Family and Neighbours", title_tr: "Aile ve komşular" },
+          { id: "daily_04", title: "At the Doctor's", title_tr: "Doktorda" }
         ]},
         { id: "travel", title: "Travel", title_tr: "Seyahat", lessons: [
-          { id: "travel_01", title: "Lesson 1", title_tr: "Ders 1" },
-          { id: "travel_02", title: "Lesson 2", title_tr: "Ders 2" },
-          { id: "travel_03", title: "Lesson 3", title_tr: "Ders 3" },
-          { id: "travel_04", title: "Lesson 4", title_tr: "Ders 4" }
+          { id: "travel_01", title: "At the Airport", title_tr: "Havalimanında" },
+          { id: "travel_02", title: "At the Hotel", title_tr: "Otelde" },
+          { id: "travel_03", title: "Directions and Transport", title_tr: "Yol tarifi ve ulaşım" },
+          { id: "travel_04", title: "Eating Out and Emergencies", title_tr: "Dışarıda yemek ve acil durumlar" }
         ]},
         { id: "work", title: "Work & School", title_tr: "İş ve Okul", lessons: [
-          { id: "work_01", title: "Lesson 1", title_tr: "Ders 1" },
-          { id: "work_02", title: "Lesson 2", title_tr: "Ders 2" },
-          { id: "work_03", title: "Lesson 3", title_tr: "Ders 3" },
-          { id: "work_04", title: "Lesson 4", title_tr: "Ders 4" }
+          { id: "work_01", title: "Your First Day", title_tr: "İlk gününüz" },
+          { id: "work_02", title: "Emails and Phone Calls", title_tr: "E-postalar ve telefon görüşmeleri" },
+          { id: "work_03", title: "Meetings and Teamwork", title_tr: "Toplantılar ve ekip çalışması" },
+          { id: "work_04", title: "The Job Interview", title_tr: "İş görüşmesi" }
         ]},
         { id: "stories", title: "Short Stories", title_tr: "Kısa Hikâyeler", lessons: [
-          { id: "stories_01", title: "Lesson 1", title_tr: "Ders 1" },
-          { id: "stories_02", title: "Lesson 2", title_tr: "Ders 2" },
-          { id: "stories_03", title: "Lesson 3", title_tr: "Ders 3" },
-          { id: "stories_04", title: "Lesson 4", title_tr: "Ders 4" }
+          { id: "stories_01", title: "The Lost Wallet", title_tr: "Kayıp cüzdan" },
+          { id: "stories_02", title: "The Simit Seller", title_tr: "Simitçi" },
+          { id: "stories_03", title: "The Olive Tree", title_tr: "Zeytin ağacı" },
+          { id: "stories_04", title: "The Thank-You Letter", title_tr: "Teşekkür mektubu" }
         ]}
       ]
     }
