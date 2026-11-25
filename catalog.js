@@ -59,16 +59,16 @@ window.CATALOG = {
           { id: "travel_04", title: "Eating Out and Emergencies", title_tr: "Dışarıda yemek ve acil durumlar" }
         ]},
         { id: "work", title: "Work & School", title_tr: "İş ve Okul", lessons: [
-          { id: "work_01", title: "Your First Day", title_tr: "İlk gününüz" },
-          { id: "work_02", title: "Emails and Phone Calls", title_tr: "E-postalar ve telefon görüşmeleri" },
-          { id: "work_03", title: "Meetings and Teamwork", title_tr: "Toplantılar ve ekip çalışması" },
-          { id: "work_04", title: "The Job Interview", title_tr: "İş görüşmesi" }
+          { id: "work_01", title: "Fluent, Conversational, Basic", title_tr: "Akıcı, Orta, Başlangıç" },
+          { id: "work_02", title: "Project Halo", title_tr: "Halo Projesi" },
+          { id: "work_03", title: "Sent", title_tr: "Gönderildi" },
+          { id: "work_04", title: "Last Copy", title_tr: "Son Nüsha" }
         ]},
         { id: "stories", title: "Short Stories", title_tr: "Kısa Hikâyeler", lessons: [
-          { id: "stories_01", title: "The Lost Wallet", title_tr: "Kayıp cüzdan" },
-          { id: "stories_02", title: "The Simit Seller", title_tr: "Simitçi" },
-          { id: "stories_03", title: "The Olive Tree", title_tr: "Zeytin ağacı" },
-          { id: "stories_04", title: "The Thank-You Letter", title_tr: "Teşekkür mektubu" }
+          { id: "stories_01", title: "The Very Big Order", title_tr: "Kocaman Sipariş" },
+          { id: "stories_02", title: "The Glitter Bucket", title_tr: "Sim Kovası" },
+          { id: "stories_03", title: "The Door With a Nose", title_tr: "Burunlu Kapı" },
+          { id: "stories_04", title: "The Little One with the Pencil", title_tr: "Kalemli Minik" }
         ]}
       ]
     }

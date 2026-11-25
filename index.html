@@ -105,6 +105,7 @@
   .sent:hover { background: #f3f0ea; }
   .sent.active { background: var(--hl); }
   .sent .en { display: block; }
+  .sent .spk { display: block; font-family: system-ui, sans-serif; font-size: .72rem; font-weight: 700; letter-spacing: .04em; color: var(--muted); text-transform: uppercase; margin-bottom: 1px; }
   .sent .tr { display: block; color: var(--accent); font-size: .92rem; font-style: italic; margin-top: 2px; }
   body.hide-tr .sent .tr { display: none; }
   .src { font-family: system-ui, sans-serif; font-size: .72rem; color: var(--muted); border: 1px solid var(--line); border-radius: 6px; padding: 0 5px; margin-left: 6px; }
@@ -204,11 +205,11 @@
   <div class="pager" data-pager></div>
 </template>
 
-<script src="data.js?v=1795586863"></script>
-<script src="catalog.js?v=1795586863"></script>
-<script src="config.js?v=1795586863"></script>
-<script src="supabase.js?v=1795586863"></script>
-<script src="progress.js?v=1795586863"></script>
+<script src="data.js?v=1795590755"></script>
+<script src="catalog.js?v=1795590755"></script>
+<script src="config.js?v=1795590755"></script>
+<script src="supabase.js?v=1795590755"></script>
+<script src="progress.js?v=1795590755"></script>
 <script>
 (() => {
   const LESSONS = window.LESSONS || [];
@@ -412,7 +413,7 @@
           const i = flatI++;
           const el = document.createElement("div");
           el.className = "sent"; el.dataset.i = i;
-          el.innerHTML = `<span class="en">${markVocab(esc(s.en), l.vocabulary || [])}` +
+          el.innerHTML = (s.speaker ? `<span class="spk">${esc(s.speaker)}</span>` : "") + `<span class="en">${markVocab(esc(s.en), l.vocabulary || [])}` +
             (s.source ? `<span class="src">${esc(s.source)}</span>` : "") + `</span><span class="tr">${esc(s.tr)}</span>`;
           el.onclick = () => playSentence(i);
           div.appendChild(el);
