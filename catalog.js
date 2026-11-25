@@ -36,6 +36,30 @@ window.CATALOG = {
           { id: "ihsan_02", title: "The Excellence of the Prophets", title_tr: "Peygamberlerin ihsanı" },
           { id: "ihsan_03", title: "Ihsan to People and Creation", title_tr: "İnsanlara ve tüm canlılara ihsan" },
           { id: "ihsan_04", title: "Living with Ihsan Today", title_tr: "Bugün ihsanla yaşamak" }
+        ]},
+        { id: "ikhlas", title: "Ikhlas: Sincerity", title_tr: "İhlas", lessons: [
+          { id: "ikhlas_01", title: "What is Ikhlas?", title_tr: "İhlas nedir?" },
+          { id: "ikhlas_02", title: "The Sincerity of the Prophets", title_tr: "Peygamberlerin ihlası" },
+          { id: "ikhlas_03", title: "Sincerity in Secret Deeds", title_tr: "Gizli iyilik ve ihlas" },
+          { id: "ikhlas_04", title: "Living with Ikhlas Today", title_tr: "Bugün ihlasla yaşamak" }
+        ]},
+        { id: "tawbah", title: "Tawbah: Returning to Allah", title_tr: "Tevbe", lessons: [
+          { id: "tawbah_01", title: "What is Tawbah?", title_tr: "Tevbe nedir?" },
+          { id: "tawbah_02", title: "The Repentance of the Prophets", title_tr: "Peygamberlerin tevbesi" },
+          { id: "tawbah_03", title: "The Door of Tawbah Is Open", title_tr: "Tevbe kapısı açıktır" },
+          { id: "tawbah_04", title: "Living with Tawbah Today", title_tr: "Bugün tevbeyle yaşamak" }
+        ]},
+        { id: "qanaah", title: "Qana'ah: Contentment", title_tr: "Kanaat", lessons: [
+          { id: "qanaah_01", title: "What is Qana'ah?", title_tr: "Kanaat nedir?" },
+          { id: "qanaah_02", title: "The Contentment of the Prophets", title_tr: "Peygamberlerin kanaati" },
+          { id: "qanaah_03", title: "Contentment and Comparing", title_tr: "Kıyaslamak ve kanaat" },
+          { id: "qanaah_04", title: "Living with Qana'ah Today", title_tr: "Bugün kanaatle yaşamak" }
+        ]},
+        { id: "taqwa", title: "Taqwa: Mindfulness of Allah", title_tr: "Takva", lessons: [
+          { id: "taqwa_01", title: "What is Taqwa?", title_tr: "Takva nedir?" },
+          { id: "taqwa_02", title: "The Taqwa of the Prophets", title_tr: "Peygamberlerin takvası" },
+          { id: "taqwa_03", title: "Taqwa Opens a Way Out", title_tr: "Takva ve kurtuluş" },
+          { id: "taqwa_04", title: "Living with Taqwa Today", title_tr: "Bugün takvayla yaşamak" }
         ]}
       ]
     },
