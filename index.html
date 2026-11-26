@@ -124,7 +124,9 @@
   .q button.ok { background: var(--accent-soft); border-color: var(--accent); }
   .q button.no { background: #f8e6e3; border-color: var(--wrong); }
   .score { font-family: system-ui, sans-serif; font-weight: bold; color: var(--accent); }
-  .sources li { font-family: system-ui, sans-serif; font-size: .9rem; margin-bottom: 4px; }
+  .sources li { font-family: system-ui, sans-serif; font-size: .9rem; margin-bottom: 10px; }
+  .sources .en { display: block; margin-top: 3px; font-style: italic; color: var(--muted, #555); }
+  .sources .tl { font-style: normal; font-size: .75rem; opacity: .75; }
   .warn { color: var(--wrong); font-size: .8rem; } .okv { color: var(--accent); font-size: .8rem; }
   #resume { display: none; background: var(--accent-soft); border: 1px solid var(--accent); border-radius: 10px; padding: 10px 14px;
             margin-bottom: 14px; font-size: .92rem; align-items: center; justify-content: space-between; gap: 10px; }
@@ -205,11 +207,11 @@
   <div class="pager" data-pager></div>
 </template>
 
-<script src="data.js?v=1795643740"></script>
-<script src="catalog.js?v=1795643740"></script>
-<script src="config.js?v=1795643740"></script>
-<script src="supabase.js?v=1795643740"></script>
-<script src="progress.js?v=1795643740"></script>
+<script src="data.js?v=1795669699"></script>
+<script src="catalog.js?v=1795669699"></script>
+<script src="config.js?v=1795669699"></script>
+<script src="supabase.js?v=1795669699"></script>
+<script src="progress.js?v=1795669699"></script>
 <script>
 (() => {
   const LESSONS = window.LESSONS || [];
@@ -445,7 +447,9 @@
 
       q("[data-sources]").innerHTML = (l.sources || []).map(s =>
         `<li>${esc(s.ref)} — ${esc(s.note || "")} ` +
-        (s.verified ? `<span class="okv">✓ kontrol edildi</span>` : `<span class="warn">kontrol bekliyor</span>`) + `</li>`).join("");
+        (s.verified ? `<span class="okv">✓ kontrol edildi</span>` : `<span class="warn">kontrol bekliyor</span>`) +
+        (s.text_en ? `<span class="en" lang="en">“${esc(s.text_en)}”` +
+          (s.translation ? ` <span class="tl">(${esc(s.translation)})</span>` : "") + `</span>` : "") + `</li>`).join("");
       q("[data-sources]").closest("section").style.display = (l.sources || []).length ? "" : "none";
 
       setAudio(keepTime);
