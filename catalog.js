@@ -84,6 +84,30 @@ window.CATALOG = {
           { id: "tawadu_02", title: "The Humility of the Prophets", title_tr: "Peygamberlerin tevazuu" },
           { id: "tawadu_03", title: "Humility and Arrogance", title_tr: "Tevazu ve kibir" },
           { id: "tawadu_04", title: "Living with Tawadu' Today", title_tr: "Bugün tevazuyla yaşamak" }
+        ]},
+        { id: "adl", title: "Adl: Justice", title_tr: "Adalet", lessons: [
+          { id: "adl_01", title: "What is Adl?", title_tr: "Adalet nedir?" },
+          { id: "adl_02", title: "The Justice of the Prophets", title_tr: "Peygamberlerin adaleti" },
+          { id: "adl_03", title: "Justice Even Against Ourselves", title_tr: "Kendi aleyhimize de olsa adalet" },
+          { id: "adl_04", title: "Living with Adl Today", title_tr: "Bugün adaletle yaşamak" }
+        ]},
+        { id: "amanah", title: "Amanah: Trustworthiness", title_tr: "Emanet", lessons: [
+          { id: "amanah_01", title: "What is Amanah?", title_tr: "Emanet nedir?" },
+          { id: "amanah_02", title: "The Trustworthiness of the Prophets", title_tr: "Peygamberlerin emanete bağlılığı" },
+          { id: "amanah_03", title: "Trust in Words and Secrets", title_tr: "Sözde ve sırda emanet" },
+          { id: "amanah_04", title: "Living with Amanah Today", title_tr: "Bugün emanetle yaşamak" }
+        ]},
+        { id: "ukhuwwah", title: "Ukhuwwah: Brotherhood", title_tr: "Kardeşlik", lessons: [
+          { id: "ukhuwwah_01", title: "What is Ukhuwwah?", title_tr: "Kardeşlik nedir?" },
+          { id: "ukhuwwah_02", title: "Brotherhood in the Time of the Prophet", title_tr: "Peygamber döneminde kardeşlik" },
+          { id: "ukhuwwah_03", title: "The Rights of Brotherhood", title_tr: "Kardeşliğin hakları" },
+          { id: "ukhuwwah_04", title: "Living with Ukhuwwah Today", title_tr: "Bugün kardeşlikle yaşamak" }
+        ]},
+        { id: "hilm", title: "Hilm: Forbearance", title_tr: "Hilim (Yumuşak huyluluk)", lessons: [
+          { id: "hilm_01", title: "What is Hilm?", title_tr: "Hilim nedir?" },
+          { id: "hilm_02", title: "The Forbearance of the Prophets", title_tr: "Peygamberlerin hilmi" },
+          { id: "hilm_03", title: "Answering Harshness with Gentleness", title_tr: "Sertliğe yumuşaklıkla karşılık" },
+          { id: "hilm_04", title: "Living with Hilm Today", title_tr: "Bugün hilimle yaşamak" }
         ]}
       ]
     },
