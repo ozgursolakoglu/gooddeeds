@@ -15,7 +15,10 @@ window.CATALOG = {
       groups: [
         { id: "concepts", title: "Concepts", title_tr: "Kavramlar",
           desc: "16 temel İslami kavram; her kavram 4 bölüm, her bölüm iki zorluk seviyesinde.",
-          levels: ["A2", "B1"] }
+          levels: ["A2", "B1"] },
+        { id: "attaching", title: "Attaching to Allah", title_tr: "Allah'a Bağlanmak",
+          desc: "Yaqeen Institute'un Attaching to Allah serisinden gerçek konuşmalar: orijinal ses, cümle cümle Türkçe çeviri. (Dr. Omar Suleiman & Ustadha Sarah Sultan)",
+          levels: ["B2"] }
       ],
       sections: [
         { id: "sabr", title: "Understanding Sabr", title_tr: "Sabrı Anlamak", lessons: [
@@ -113,6 +116,9 @@ window.CATALOG = {
           { id: "hilm_02", title: "The Forbearance of the Prophets", title_tr: "Peygamberlerin hilmi" },
           { id: "hilm_03", title: "Answering Harshness with Gentleness", title_tr: "Sertliğe yumuşaklıkla karşılık" },
           { id: "hilm_04", title: "Living with Hilm Today", title_tr: "Bugün hilimle yaşamak" }
+        ]},
+        { id: "attaching", group: "attaching", title: "Attaching to Allah", title_tr: "Allah'a Bağlanmak", lessons: [
+          { id: "attaching_01", title: "How Do You Do the Right Thing Even When It's Hard?", title_tr: "Zor Olduğunda Bile Doğru Olanı Nasıl Yaparsın?" }
         ]}
       ]
     },

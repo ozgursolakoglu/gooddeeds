@@ -76,6 +76,9 @@
   .crumbs a { color: var(--muted); }
   .page-title { font-size: 1.6rem; margin: 0 0 2px; }
   .page-sub { color: var(--accent); font: .95rem system-ui, sans-serif; margin: 0 0 20px; }
+  .credit { font: .88rem system-ui, sans-serif; background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--accent);
+            border-radius: 10px; padding: 10px 14px; margin: 4px 0 12px; color: var(--ink); }
+  .credit a { color: var(--accent); }
   .tabs { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 18px; }
   .tabs a { font: .92rem system-ui, sans-serif; text-decoration: none; border: 1px solid var(--accent); color: var(--accent);
             background: #fff; border-radius: 999px; padding: 6px 16px; }
@@ -192,6 +195,7 @@
   <div class="crumbs" data-crumbs></div>
   <h2 class="page-title" data-title></h2>
   <p class="page-sub" data-sub></p>
+  <div class="credit ui" data-credit hidden></div>
   <div class="controls ui">
     <div class="row">
       <span class="seg" data-levels></span>
@@ -214,11 +218,11 @@
   <div class="pager" data-pager></div>
 </template>
 
-<script src="data.js?v=1795724610"></script>
-<script src="catalog.js?v=1795724610"></script>
-<script src="config.js?v=1795724610"></script>
-<script src="supabase.js?v=1795724610"></script>
-<script src="progress.js?v=1795724610"></script>
+<script src="data.js?v=1795732209"></script>
+<script src="catalog.js?v=1795732209"></script>
+<script src="config.js?v=1795732209"></script>
+<script src="supabase.js?v=1795732209"></script>
+<script src="progress.js?v=1795732209"></script>
 <script>
 (() => {
   const LESSONS = window.LESSONS || [];
@@ -231,7 +235,7 @@
 
   // ---------- Veri: ders id'si -> seviyeler ----------
   // Zorluk seviyesi etiketleri (ders dosyasinda A2/B1 olarak tutulur)
-  const LEVEL_NAME = { A2: "Pre-Intermediate", B1: "Intermediate" };
+  const LEVEL_NAME = { A2: "Pre-Intermediate", B1: "Intermediate", B2: "Upper-Intermediate" };
   const levelName = lv => LEVEL_NAME[lv] || lv;
   // Sekmeler: bolumun "groups" listesi varsa her ana baslik bir sekmeye aittir (yoksa ilk sekmeye)
   for (const t of CATALOG.tracks) {
@@ -382,7 +386,7 @@
 
   function renderLesson(app, id) {
     const e = findEntry(id), group = byBase[id];
-    const crumbs = e ? `<a href="#/">Ana sayfa</a> › <a href="#/t/${e.t.id}">${esc(e.t.title_tr)}</a> › ${groupOf(e.t, e.s) ? `<a href="#/t/${e.t.id}#${e.s.group}">${esc(groupOf(e.t, e.s).title_tr)}</a> › ` : ""}<a href="#/t/${e.t.id}#${e.s.id}">${esc(e.s.title_tr)}</a> › Ders ${e.ls.n}`
+    const crumbs = e ? `<a href="#/">Ana sayfa</a> › <a href="#/t/${e.t.id}">${esc(e.t.title_tr)}</a> › ${groupOf(e.t, e.s) && groupOf(e.t, e.s).title_tr !== e.s.title_tr ? `<a href="#/t/${e.t.id}#${e.s.group}">${esc(groupOf(e.t, e.s).title_tr)}</a> › ` : ""}<a href="#/t/${e.t.id}#${e.s.id}">${esc(e.s.title_tr)}</a> › Ders ${e.ls.n}`
                      : `<a href="#/">Ana sayfa</a>`;
     if (!group) {
       document.title = "Yakında · Good Deeds";
@@ -435,6 +439,12 @@
       document.title = `${l.title} · Good Deeds`;
       q("[data-title]").textContent = entry ? `${entry.ls.n}. ${l.title}` : l.title;
       q("[data-sub]").textContent = `${l.title_tr} · Seviye: ${levelName(l.level)}`;
+      const cr = q("[data-credit]"), c = l.credit;
+      cr.hidden = !c;
+      if (c && c.text) cr.textContent = c.text;
+      else if (c) cr.innerHTML = `Kaynak · Source: <b>${esc(c.speakers)}</b>, ${esc(c.org)} — <i>${esc(c.series)}</i>. ` +
+        `<a href="${esc(c.url)}" target="_blank" rel="noopener">Orijinal bölümü izleyin · Watch the original</a>` +
+        (c.note ? `<br><span style="color:var(--muted)">${esc(c.note)}</span>` : "");
 
       const t = q("[data-text]"); t.innerHTML = "";
       let flatI = 0;
