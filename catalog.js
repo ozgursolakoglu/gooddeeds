@@ -12,6 +12,11 @@ window.CATALOG = {
       title: "Faith & Values",
       title_tr: "İnanç ve Değerler",
       desc: "İslami kavramlar ve ahlak üzerine dersler",
+      groups: [
+        { id: "concepts", title: "Concepts", title_tr: "Kavramlar",
+          desc: "16 temel İslami kavram; her kavram 4 bölüm, her bölüm iki zorluk seviyesinde.",
+          levels: ["A2", "B1"] }
+      ],
       sections: [
         { id: "sabr", title: "Understanding Sabr", title_tr: "Sabrı Anlamak", lessons: [
           { id: "sabr_01", title: "What is Sabr?", title_tr: "Sabır nedir?" },

@@ -42,6 +42,7 @@
   .tree { padding: 6px 0 30px; font-size: .92rem; }
   .tree a { text-decoration: none; }
   .tr-track { display: block; padding: 12px 16px 4px; font-weight: 700; color: var(--accent); }
+  .tr-grp { display: block; padding: 8px 16px 2px 22px; font: 600 .8rem system-ui, sans-serif; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
   .tr-sec { display: block; padding: 6px 16px 2px 28px; font-weight: 600; }
   .tr-les { display: flex; gap: 8px; padding: 4px 16px 4px 40px; color: var(--ink); align-items: baseline; }
   .tr-les:hover { background: #f3f0ea; }
@@ -75,6 +76,12 @@
   .crumbs a { color: var(--muted); }
   .page-title { font-size: 1.6rem; margin: 0 0 2px; }
   .page-sub { color: var(--accent); font: .95rem system-ui, sans-serif; margin: 0 0 20px; }
+  .tabs { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 18px; }
+  .tabs a { font: .92rem system-ui, sans-serif; text-decoration: none; border: 1px solid var(--accent); color: var(--accent);
+            background: #fff; border-radius: 999px; padding: 6px 16px; }
+  .tabs a.on { background: var(--accent); color: #fff; }
+  .grp-info { font: .9rem system-ui, sans-serif; color: var(--muted); margin: -6px 0 16px; }
+  .lvl-tag { display: inline-block; font: .75rem system-ui, sans-serif; border: 1px solid var(--line); border-radius: 6px; padding: 1px 8px; margin-right: 6px; color: var(--ink); background: #fff; }
   .section { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; margin-bottom: 16px; }
   .section h3 { margin: 0; font-size: 1.15rem; }
   .section .st { color: var(--accent); font: .88rem system-ui, sans-serif; margin-bottom: 10px; }
@@ -207,11 +214,11 @@
   <div class="pager" data-pager></div>
 </template>
 
-<script src="data.js?v=1795707816"></script>
-<script src="catalog.js?v=1795707816"></script>
-<script src="config.js?v=1795707816"></script>
-<script src="supabase.js?v=1795707816"></script>
-<script src="progress.js?v=1795707816"></script>
+<script src="data.js?v=1795724610"></script>
+<script src="catalog.js?v=1795724610"></script>
+<script src="config.js?v=1795724610"></script>
+<script src="supabase.js?v=1795724610"></script>
+<script src="progress.js?v=1795724610"></script>
 <script>
 (() => {
   const LESSONS = window.LESSONS || [];
@@ -223,6 +230,15 @@
   const lsSet = (k, v) => { try { localStorage.setItem(k, v); } catch {} };
 
   // ---------- Veri: ders id'si -> seviyeler ----------
+  // Zorluk seviyesi etiketleri (ders dosyasinda A2/B1 olarak tutulur)
+  const LEVEL_NAME = { A2: "Pre-Intermediate", B1: "Intermediate" };
+  const levelName = lv => LEVEL_NAME[lv] || lv;
+  // Sekmeler: bolumun "groups" listesi varsa her ana baslik bir sekmeye aittir (yoksa ilk sekmeye)
+  for (const t of CATALOG.tracks) {
+    t.groups = t.groups || [];
+    for (const s of t.sections) if (!s.group && t.groups[0]) s.group = t.groups[0].id;
+  }
+  const groupOf = (t, s) => t.groups.find(g => g.id === s.group);
   const baseId = id => id.replace(/_(a1|a2|b1|b2|c1|c2)$/i, "");
   const byBase = {};
   for (const l of LESSONS) (byBase[baseId(l.id)] ||= {})[l.level] = l;
@@ -251,7 +267,10 @@
     let h = "";
     for (const t of CATALOG.tracks) {
       h += `<a class="tr-track" href="#/t/${t.id}">${t.icon || ""} ${esc(t.title)} · ${esc(t.title_tr)}</a>`;
+      let lastGrp = null;
       for (const s of t.sections) {
+        const g = groupOf(t, s);
+        if (g && g !== lastGrp) { h += `<a class="tr-grp" href="#/t/${t.id}#${g.id}">${esc(g.title_tr)}</a>`; lastGrp = g; }
         h += `<a class="tr-sec" href="#/t/${t.id}#${s.id}">${esc(s.title_tr)}</a>`;
         for (const ls of s.lessons) {
           const cls = ["tr-les", isReady(ls.id) ? "" : "soon", ls.id === cur ? "cur" : ""].join(" ");
@@ -331,7 +350,18 @@
     document.title = `${t.title} · Good Deeds`;
     let h = `<div class="crumbs ui"><a href="#/">Ana sayfa</a> › ${esc(t.title_tr)}</div>
       <h2 class="page-title">${esc(t.title)}</h2><p class="page-sub">${esc(t.title_tr)}</p>`;
-    for (const s of t.sections) {
+    const anchor = location.hash.split("#")[2];
+    let sections = t.sections;
+    if (t.groups.length) {
+      const bySec = t.sections.find(s => s.id === anchor);
+      const active = t.groups.find(g => g.id === anchor) || (bySec && groupOf(t, bySec)) || t.groups[0];
+      h += `<div class="tabs ui">` + t.groups.map(g =>
+        `<a href="#/t/${t.id}#${g.id}" class="${g === active ? "on" : ""}">${esc(g.title_tr)} · ${esc(g.title)}</a>`).join("") + `</div>`;
+      if (active.desc || active.levels) h += `<p class="grp-info">${esc(active.desc || "")}` +
+        (active.levels ? `<br><span style="display:inline-block;margin-top:6px">Zorluk seviyeleri:</span> ${active.levels.map(lv => `<span class="lvl-tag">${esc(levelName(lv))}</span>`).join("")}` : "") + `</p>`;
+      sections = t.sections.filter(s => s.group === active.id);
+    }
+    for (const s of sections) {
       h += `<div class="section" id="sec-${s.id}"><h3>${esc(s.title)}</h3><div class="st">${esc(s.title_tr)}</div><div class="les-list">`;
       for (const ls of s.lessons) {
         h += `<a class="les ${isReady(ls.id) ? "" : "soon"}" href="#/l/${ls.id}"><div class="no">Ders ${ls.n}</div>
@@ -340,8 +370,7 @@
       h += `</div></div>`;
     }
     app.innerHTML = h;
-    const anchor = location.hash.split("#")[2];
-    if (anchor) setTimeout(() => document.getElementById("sec-" + anchor)?.scrollIntoView({ behavior: "smooth" }), 50);
+    if (anchor && document.getElementById("sec-" + anchor)) setTimeout(() => document.getElementById("sec-" + anchor)?.scrollIntoView({ behavior: "smooth" }), 50);
   }
 
   function pagerHtml(e) {
@@ -353,7 +382,7 @@
 
   function renderLesson(app, id) {
     const e = findEntry(id), group = byBase[id];
-    const crumbs = e ? `<a href="#/">Ana sayfa</a> › <a href="#/t/${e.t.id}">${esc(e.t.title_tr)}</a> › <a href="#/t/${e.t.id}#${e.s.id}">${esc(e.s.title_tr)}</a> › Ders ${e.ls.n}`
+    const crumbs = e ? `<a href="#/">Ana sayfa</a> › <a href="#/t/${e.t.id}">${esc(e.t.title_tr)}</a> › ${groupOf(e.t, e.s) ? `<a href="#/t/${e.t.id}#${e.s.group}">${esc(groupOf(e.t, e.s).title_tr)}</a> › ` : ""}<a href="#/t/${e.t.id}#${e.s.id}">${esc(e.s.title_tr)}</a> › Ders ${e.ls.n}`
                      : `<a href="#/">Ana sayfa</a>`;
     if (!group) {
       document.title = "Yakında · Good Deeds";
@@ -394,7 +423,7 @@
       const seg = q("[data-levels]"); seg.innerHTML = "";
       for (const lv of levels) {
         const b = document.createElement("button");
-        b.textContent = lv; if (lv === st.level) b.className = "on";
+        b.textContent = levelName(lv); if (lv === st.level) b.className = "on";
         b.onclick = () => { st.level = lv; lsSet("gd_level", lv); load(); };
         seg.appendChild(b);
       }
@@ -405,7 +434,7 @@
       renderLevels();
       document.title = `${l.title} · Good Deeds`;
       q("[data-title]").textContent = entry ? `${entry.ls.n}. ${l.title}` : l.title;
-      q("[data-sub]").textContent = `${l.title_tr} · Seviye ${l.level}`;
+      q("[data-sub]").textContent = `${l.title_tr} · Seviye: ${levelName(l.level)}`;
 
       const t = q("[data-text]"); t.innerHTML = "";
       let flatI = 0;
