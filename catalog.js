@@ -118,7 +118,8 @@ window.CATALOG = {
           { id: "hilm_04", title: "Living with Hilm Today", title_tr: "Bugün hilimle yaşamak" }
         ]},
         { id: "attaching", group: "attaching", title: "Attaching to Allah", title_tr: "Allah'a Bağlanmak", lessons: [
-          { id: "attaching_01", title: "How Do You Do the Right Thing Even When It's Hard?", title_tr: "Zor Olduğunda Bile Doğru Olanı Nasıl Yaparsın?" }
+          { id: "attaching_01", title: "How Do You Do the Right Thing Even When It's Hard?", title_tr: "Zor Olduğunda Bile Doğru Olanı Nasıl Yaparsın?" },
+          { id: "attaching_02", title: "How Do You Handle Rejection and Ridicule?", title_tr: "Reddedilme ve Alaya Alınmayla Nasıl Başa Çıkarsın?" }
         ]}
       ]
     },
